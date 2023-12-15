@@ -1,0 +1,4 @@
+function r(e){return{all:e=e||new Map,on:function(i,n){var t=e.get(i);t?t.push(n):e.set(i,[n])},off:function(i,n){var t=e.get(i);t&&(n?t.splice(t.indexOf(n)>>>0,1):e.set(i,[]))},emit:function(i,n){var t=e.get(i);t&&t.slice().map(function(o){o(n)}),(t=e.get("*"))&&t.slice().map(function(o){o(i,n)})}}}let s=new r;const a={name:"$events",methods:{all(){return s.all()},on(...e){return s.on(...e)},off(...e){return s.off(...e)},emit(...e){return s.emit(...e)}}};a.__docgenInfo={displayName:"$events",description:`Vitel Events service
+
+This module is really just a wrapped version of Mitt which is a frontend version of Node's EventEmitter`,tags:{see:[{description:"https://nodejs.org/api/events.html#class-eventemitter",title:"see"}]},exportName:"default",sourceFiles:["/home/runner/work/Vitel/Vitel/services/events.vue"]};export{a as _};
+//# sourceMappingURL=events-86d49600.js.map
