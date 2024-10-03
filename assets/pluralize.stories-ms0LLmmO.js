@@ -1,0 +1,26 @@
+import{F as R}from"./pluralize-B5uYQarM.js";import{c as _,e,a as l,t as i,o as q}from"./vue.esm-bundler-BItuRzc1.js";import{_ as I}from"./_plugin-vue_export-helper-DlAUqK2U.js";const k={props:{value:{type:[Number,String],required:!0},prefix:{type:[String,Object]},suffix:{type:[String,Object]},valueIfZero:{type:String}},computed:{options(){return{prefix:this.prefix,suffix:this.suffix,valueIfZero:this.valueIfZero}}},methods:{pluralize:R}};function N(O,Z,o,z,V,t){return q(),_("div",null,[e("p",null,[l(" Given value: "),e("pre",null,i(o.value),1)]),e("p",null,[l(" Given options: "),e("pre",null,i(t.options),1)]),e("p",null," Output: "+i(t.pluralize(o.value,t.options)),1)])}const S=I(k,[["render",N]]);k.__docgenInfo={exportName:"default",displayName:"pluralize.demo",type:1,props:[{name:"value",global:!1,description:"",tags:[],required:!0,type:"string | number",declarations:[],schema:{kind:"enum",type:"string | number",schema:["string","number"]}},{name:"key",global:!0,description:"",tags:[],required:!1,type:"string | number | symbol",declarations:[],schema:{kind:"enum",type:"string | number | symbol",schema:["string","number","symbol"]}},{name:"ref",global:!0,description:"",tags:[],required:!1,type:"VNodeRef",declarations:[],schema:{kind:"enum",type:"VNodeRef",schema:["string","Ref<any>",{kind:"event",type:"(ref: Element | ComponentPublicInstance<{}, {}, {}, {}, {}, {}, {}, {}, false, ComponentOptionsBase<any, any, any, any, any, any, any, any, any, {}, {}, string, {}>, {}, {}>, refs: Record<...>): void",schema:[]}]}},{name:"ref_for",global:!0,description:"",tags:[],required:!1,type:"boolean",declarations:[],schema:{kind:"enum",type:"boolean",schema:["false","true"]}},{name:"ref_key",global:!0,description:"",tags:[],required:!1,type:"string",declarations:[],schema:"string"},{name:"class",global:!0,description:"",tags:[],required:!1,type:"unknown",declarations:[],schema:"unknown"},{name:"style",global:!0,description:"",tags:[],required:!1,type:"unknown",declarations:[],schema:"unknown"},{name:"prefix",global:!1,description:"",tags:[],required:!1,type:"string | Record<string, any>",declarations:[],schema:{kind:"enum",type:"string | Record<string, any>",schema:["string","Record<string, any>"]}},{name:"suffix",global:!1,description:"",tags:[],required:!1,type:"string | Record<string, any>",declarations:[],schema:{kind:"enum",type:"string | Record<string, any>",schema:["string","Record<string, any>"]}},{name:"valueIfZero",global:!1,description:"",tags:[],required:!1,type:"string",declarations:[],schema:"string"}],events:[],slots:[],exposed:[{name:"value",type:"string | number",description:"",declarations:[],schema:{kind:"enum",type:"string | number",schema:["string","number"]}},{name:"prefix",type:"string | Record<string, any>",description:"",declarations:[],schema:{kind:"enum",type:"string | Record<string, any>",schema:["string","Record<string, any>"]}},{name:"suffix",type:"string | Record<string, any>",description:"",declarations:[],schema:{kind:"enum",type:"string | Record<string, any>",schema:["string","Record<string, any>"]}},{name:"valueIfZero",type:"string",description:"",declarations:[],schema:"string"},{name:"options",type:"{ prefix: any; suffix: any; valueIfZero: any; }",description:"",declarations:[],schema:{kind:"object",type:"{ prefix: any; suffix: any; valueIfZero: any; }",schema:{prefix:{name:"prefix",global:!1,description:"",tags:[],required:!0,type:"any",declarations:[],schema:"any"},suffix:{name:"suffix",global:!1,description:"",tags:[],required:!0,type:"any",declarations:[],schema:"any"},valueIfZero:{name:"valueIfZero",global:!1,description:"",tags:[],required:!0,type:"any",declarations:[],schema:"any"}}}}],sourceFiles:"/home/runner/work/Vitel/Vitel/filters/pluralize.demo.vue"};const w={title:"Filters/Pluralize",component:S,tags:["autodocs"]},r={args:{value:123456789}},a={args:{value:1,suffix:"[person|people]"}},s={args:{value:3,prefix:"There are",suffix:{singular:"dog",plural:"dogs"}}},n={args:{value:0,prefix:"There are",suffix:"sad people",valueIfZero:"No-one is sad"}};var u,c,p;r.parameters={...r.parameters,docs:{...(u=r.parameters)==null?void 0:u.docs,source:{originalSource:`{
+  args: {
+    value: 123456789
+  }
+}`,...(p=(c=r.parameters)==null?void 0:c.docs)==null?void 0:p.source}}};var d,m,f;a.parameters={...a.parameters,docs:{...(d=a.parameters)==null?void 0:d.docs,source:{originalSource:`{
+  args: {
+    value: 1,
+    suffix: '[person|people]'
+  }
+}`,...(f=(m=a.parameters)==null?void 0:m.docs)==null?void 0:f.source}}};var g,y,h;s.parameters={...s.parameters,docs:{...(g=s.parameters)==null?void 0:g.docs,source:{originalSource:`{
+  args: {
+    value: 3,
+    prefix: 'There are',
+    suffix: {
+      singular: 'dog',
+      plural: 'dogs'
+    }
+  }
+}`,...(h=(y=s.parameters)==null?void 0:y.docs)==null?void 0:h.source}}};var x,b,v;n.parameters={...n.parameters,docs:{...(x=n.parameters)==null?void 0:x.docs,source:{originalSource:`{
+  args: {
+    value: 0,
+    prefix: 'There are',
+    suffix: 'sad people',
+    valueIfZero: 'No-one is sad'
+  }
+}`,...(v=(b=n.parameters)==null?void 0:b.docs)==null?void 0:v.source}}};const F=["BasicNumberOutput","TemplateSuffixes","ObjectSuffixes","NoValueOverrides"];export{r as BasicNumberOutput,n as NoValueOverrides,s as ObjectSuffixes,a as TemplateSuffixes,F as __namedExportsOrder,w as default};
