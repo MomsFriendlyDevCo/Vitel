@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.23.2](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.23.1...v1.23.2) (2025-07-02)
+
+
+### Bug Fixes
+
+* **v-table:** Make <v-table> default to using `app.service().baseURL` if its present while bootstrapping ([e6eb8b9](https://github.com/MomsFriendlyDevCo/Vitel/commit/e6eb8b938f31753033f887b154ee7d963ce9f436))
+
 ## [1.23.1](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.23.0...v1.23.1) (2025-05-15)
 
 
