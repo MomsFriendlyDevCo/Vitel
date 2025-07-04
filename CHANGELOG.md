@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.25.0](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.24.0...v1.25.0) (2025-07-04)
+
+
+### Features
+
+* <table-of-contents-{area,display,section}/> ([9a64c59](https://github.com/MomsFriendlyDevCo/Vitel/commit/9a64c59abb8ae75295699555d7431e82f6fcd2d8))
+
 # [1.24.0](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.23.2...v1.24.0) (2025-07-04)
 
 
