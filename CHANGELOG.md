@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.24.0](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.23.2...v1.24.0) (2025-07-04)
+
+
+### Features
+
+* <btn-states/> can now also act as a dropdown button ([07ad03d](https://github.com/MomsFriendlyDevCo/Vitel/commit/07ad03de2afc11116b3441b572e812ed82b226c6))
+
 ## [1.23.2](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.23.1...v1.23.2) (2025-07-02)
 
 
