@@ -7,6 +7,9 @@ import createKindeClient from '@kinde-oss/kinde-auth-pkce-js';
 */
 export default {
 	name: '$authKinde',
+	emits: [
+		'$kinde:change', // Emitted as `(user:Object?)` when the current user changes in any way
+	],
 	data() { return {
 		/**
 		* Kinde instance used to track the user state
@@ -147,14 +150,14 @@ export default {
 						this.state = 'guest';
 						this.user = null;
 						this.debug('Auth change to guest access');
-						this.$events.emit('$kinde:change');
+						this.$events.emit('$kinde:change', this.user);
 					} else { // User has state - login
 						this.isLoggedIn = true;
 						this.state = 'user';
 						this.user = user;
 						this.debug('Auth change', this.user);
 					}
-					this.$events.emit('$kinde:change');
+					this.$events.emit('$kinde:change', this.user);
 				})
 				.then(()=> {
 					if (!this.autoClearTokens) return;
@@ -265,7 +268,6 @@ export default {
 					this.debug('Bypassing auth with email', this.bypassEmail);
 					return this.refresh();
 				} else {
-
 					return Promise.resolve()
 						.then(()=> createKindeClient({ // Create Kinde handler
 							client_id: this.clientId,
