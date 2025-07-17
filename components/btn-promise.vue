@@ -84,9 +84,12 @@ export default {
 			return Promise.resolve()
 				.then(()=> this.isActive = true)
 				.then(()=> this.action(e))
-				.then(()=> this.minTime > 0 && new Promise(resolve => setTimeout(resolve, this.minTime - (Date.now() - startTime))))
-				.then(()=> this.toast && this.$toast[this.toastType](this.toast))
-				.finally(()=> this.isActive = false)
+				.finally(()=> {
+					// Wait for remaining time - minTime
+					let wait = Math.max(this.minTime - (Date.now() - startTime), this.minTime);
+					return new Promise(resolve => setTimeout(resolve, wait))
+						.finally(()=> this.isActive = false)
+				})
 		},
 	},
 }
