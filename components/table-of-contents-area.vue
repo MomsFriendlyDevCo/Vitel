@@ -4,10 +4,12 @@
 * This should enclose the whole page area where any <table-of-contents-display/> or <table-of-contents-section/> will appear
 *
 * @emits newSection Emitted as `(newSection:tocSectionsItem)` whenever a new section is addded
+* @emits selectSection Emitted as `(section:tocSectionsItem)` whenever a selection is selected and scrolled to, this event is also emitted as a native browser event via $el.dispatchEvent()
 */
 export default {
 	emits: [
 		'newSection',
+		'selectSection',
 	],
 	provide() { return {
 		toc: this,
@@ -85,7 +87,9 @@ export default {
 				inline: this.xSCrolling,
 			});
 
-			section.component.$emit('click', section.component);
+			this.$emit('selectSection', section.component);
+			this.$el.dispatchEvent(new CustomEvent('selectSection', {detail: section}));
+			section.component.$emit('click', section);
 		},
 
 	},

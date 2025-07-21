@@ -6,7 +6,7 @@
 */
 export default {
 	emits: ['click'],
-	inject: ['toc'], // Require a (eventual) parent TOC(<table-of-contents>) parent
+	inject: ['toc'], // Require a parent TOC(<table-of-contents>) parent
 	props: {
 
 		/**

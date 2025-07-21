@@ -1,6 +1,6 @@
 <script>
 export default {
-	inject: ['toc'], // Require a (eventual) parent TOC(<table-of-contents>) parent
+	inject: ['toc'], // Require a parent TOC(<table-of-contents>) parent
 	props: {
 
 		/**
@@ -17,7 +17,7 @@ export default {
 		*
 		* @type {'numbered'|'none'}
 		*/
-		template: {type: String, default: 'numbered', validator: v => ['numbered', 'none'].includes(v)},
+		template: {type: String, default: 'none', validator: v => ['numbered', 'none'].includes(v)},
 
 	},
 	computed: {
@@ -67,6 +67,9 @@ export default {
 		display: block;
 		cursor: pointer;
 	}
+
+	/* template=none {{{ */
+	/* }}} */
 
 	/* template=numbered {{{ */
 	&.table-of-contents-display-numbered {

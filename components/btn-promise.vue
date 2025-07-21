@@ -58,7 +58,7 @@ export default {
 		* This is really to prevent the user thinking nothing has happened for especially short-lived promises
 		* @type {Number} Time in milliseconds before resolving the active state
 		*/
-		minTime: {type: Number, default: 500},
+		minTime: {type: [Number, String], default: 500},
 
 		/**
 		* Optional toast text to display on completion
