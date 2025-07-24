@@ -692,13 +692,26 @@ export default {
 							})
 							.then(({sbFile, file, meta}) => {
 								if (!isEmpty(meta)) { // If we also want to populate meta we need to refetch the uploaded file by its name
-									return this.fileList(path, {
-										search: file.name,
+									// Get the full path of the file we just uploaded inside the bucket
+									const fullUploadedPath = sbFile.path;
+
+									// Split it into the directory and the filename
+									const pathParts = fullUploadedPath.split('/');
+									const searchFilename = pathParts.pop();
+									const directoryPathInBucket = pathParts.join('/');
+
+									// Construct the path that the fileList function expects
+									const listPath = `/${entity}/${directoryPathInBucket}`;
+
+									return this.fileList(listPath, {
+										search: searchFilename,
 										meta: false,
 										limit: 1,
 									})
-										.then(([newFile]) => this.replace(settings.metaPath(newFile), meta))
-										.then(()=> ({sbFile, file}))
+									.then(([newFile]) => {
+										return this.replace(settings.metaPath(newFile), meta)
+									})
+									.then(()=> ({sbFile, file}))
 								} else {
 									return {sbFile, file};
 								}
