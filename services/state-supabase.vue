@@ -556,7 +556,8 @@ export default {
 				...options,
 			};
 			let toastId; // Eventual toastID used to track the loading progress
-			let {entity, id} = this.splitPath(path, {requireEntity: true, requireId: true});
+			let {entity, id, operand} = this.splitPath(path, {requireEntity: true, requireId: true});
+			const pathPrefix = [id, operand].filter(Boolean).join('/');
 
 			// Sanity checks {{{
 			if (settings.multiple && settings.meta) throw new Error('Cannot specify {multiple:true} + {meta:Object} at the same time - upload one file or wrap this function in Promise.all()');
@@ -673,7 +674,7 @@ export default {
 							})
 							.then(({file, meta}) => this.supabase.storage
 								.from(entity)
-								.upload(`${id}/${file.name}`, file, {
+								.upload(`${pathPrefix}/${file.name}`, file, {
 									upsert: settings.overwrite,
 									cacheControl: settings.cacheControl,
 								})
@@ -681,7 +682,7 @@ export default {
 							)
 							.then(({sbFile, file, meta}) => {
 								if (!isEmpty(meta)) { // If we also want to populate meta we need to refetch the uploaded file by its name
-									return this.fileList(`${entity}/${id}`, {
+									return this.fileList(path, {
 										search: file.name,
 										meta: false,
 										limit: 1,
