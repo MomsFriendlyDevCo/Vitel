@@ -672,14 +672,24 @@ export default {
 										throw e; // Otherwise throw upwards
 									})
 							})
-							.then(({file, meta}) => this.supabase.storage
+							.then(({file, meta}) => {
+								// Check if the original input was a Blob. If so, it had no name,
+								// and the `path` argument must be treated as the full final path.
+								// We also check for 'pojo' mode which behaves the same way.
+								let finalUploadPath = settings.mode === 'pojo' || (settings.mode === 'encoded' && options.file instanceof Blob) ?
+									// In this case, pathPrefix *is* the full path including the filename.
+									pathPrefix
+									// Otherwise, the file object has its own name. The `path` argument
+									// is the directory, so we append the file's name.
+									: `${pathPrefix}/${file.name}`
+								return this.supabase.storage
 								.from(entity)
-								.upload(`${pathPrefix}/${file.name}`, file, {
+								.upload(finalUploadPath, file, {
 									upsert: settings.overwrite,
 									cacheControl: settings.cacheControl,
 								})
 								.then(({data: sbFile}) => ({file, meta, sbFile})) // Pass result + meta to next .then block
-							)
+							})
 							.then(({sbFile, file, meta}) => {
 								if (!isEmpty(meta)) { // If we also want to populate meta we need to refetch the uploaded file by its name
 									return this.fileList(path, {
