@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.25.2](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.25.0...v1.25.2) (2025-07-25)
+
+
+### Bug Fixes
+
+* **$auth:** NPM bump for Kinde + some minor Vue tweaks ([b490eaa](https://github.com/MomsFriendlyDevCo/Vitel/commit/b490eaa54992d3eab6614d6afd5daf34cf560243))
+* Metadata population on files in folder ([78bfab8](https://github.com/MomsFriendlyDevCo/Vitel/commit/78bfab84e73869bf96f7ff2e122ed0668227ace5))
+* More robust handling of file upload paths ([4630a3d](https://github.com/MomsFriendlyDevCo/Vitel/commit/4630a3dae08c517a3cede9891f28f3ee0ba61804))
+
+## [1.25.1](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.25.0...v1.25.1) (2025-07-25)
+
+
+### Bug Fixes
+
+* **$auth:** NPM bump for Kinde + some minor Vue tweaks ([b490eaa](https://github.com/MomsFriendlyDevCo/Vitel/commit/b490eaa54992d3eab6614d6afd5daf34cf560243))
+* Metadata population on files in folder ([78bfab8](https://github.com/MomsFriendlyDevCo/Vitel/commit/78bfab84e73869bf96f7ff2e122ed0668227ace5))
+* More robust handling of file upload paths ([4630a3d](https://github.com/MomsFriendlyDevCo/Vitel/commit/4630a3dae08c517a3cede9891f28f3ee0ba61804))
+
 # [1.25.0](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.24.0...v1.25.0) (2025-07-04)
 
 
