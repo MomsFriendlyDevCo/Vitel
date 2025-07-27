@@ -1,5 +1,21 @@
 # Changelog
 
+# [1.26.0](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.25.2...v1.26.0) (2025-07-27)
+
+
+### Bug Fixes
+
+* **<btn-promise/>:** Handle $props.min-time even if the action promise throws ([243da7d](https://github.com/MomsFriendlyDevCo/Vitel/commit/243da7d1b1ffdd908112344e2d9c5d330865d808))
+* **<table-of-contents-floating>:** Dont try to bind on element if the DOM isnt available - fixes issues where Vue throws while trying to load the component ([4d7f007](https://github.com/MomsFriendlyDevCo/Vitel/commit/4d7f00724b8e30c2fad06847bab92322392e25c8))
+
+
+### Features
+
+* <btn-floating-bar> - mainly just some SCSS wrapping code ([965c763](https://github.com/MomsFriendlyDevCo/Vitel/commit/965c76390591c87f3f91bb5e81c62d34caf6c4e3))
+* <table-of-contents-floating/> ([1354fe5](https://github.com/MomsFriendlyDevCo/Vitel/commit/1354fe56d4ba65e4ae0dd4ad1a30ae76b1c79fd8))
+* PoC <timeline> display ([b76bfeb](https://github.com/MomsFriendlyDevCo/Vitel/commit/b76bfebd9ec6a2f96a94d23455590aa6fe26a930))
+* v-shortcut (untested) ([5411b52](https://github.com/MomsFriendlyDevCo/Vitel/commit/5411b520a378950272458b497ef452845505d7bf))
+
 ## [1.25.2](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.25.0...v1.25.2) (2025-07-25)
 
 
