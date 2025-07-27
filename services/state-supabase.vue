@@ -556,7 +556,8 @@ export default {
 				...options,
 			};
 			let toastId; // Eventual toastID used to track the loading progress
-			let {entity, id} = this.splitPath(path, {requireEntity: true, requireId: true});
+			let {entity, id, operand} = this.splitPath(path, {requireEntity: true, requireId: true});
+			const pathPrefix = [id, operand].filter(Boolean).join('/');
 
 			// Sanity checks {{{
 			if (settings.multiple && settings.meta) throw new Error('Cannot specify {multiple:true} + {meta:Object} at the same time - upload one file or wrap this function in Promise.all()');
@@ -671,23 +672,46 @@ export default {
 										throw e; // Otherwise throw upwards
 									})
 							})
-							.then(({file, meta}) => this.supabase.storage
+							.then(({file, meta}) => {
+								// Check if the original input was a Blob. If so, it had no name,
+								// and the `path` argument must be treated as the full final path.
+								// We also check for 'pojo' mode which behaves the same way.
+								let finalUploadPath = settings.mode === 'pojo' || (settings.mode === 'encoded' && options.file instanceof Blob) ?
+									// In this case, pathPrefix *is* the full path including the filename.
+									pathPrefix
+									// Otherwise, the file object has its own name. The `path` argument
+									// is the directory, so we append the file's name.
+									: `${pathPrefix}/${file.name}`
+								return this.supabase.storage
 								.from(entity)
-								.upload(`${id}/${file.name}`, file, {
+								.upload(finalUploadPath, file, {
 									upsert: settings.overwrite,
 									cacheControl: settings.cacheControl,
 								})
 								.then(({data: sbFile}) => ({file, meta, sbFile})) // Pass result + meta to next .then block
-							)
+							})
 							.then(({sbFile, file, meta}) => {
 								if (!isEmpty(meta)) { // If we also want to populate meta we need to refetch the uploaded file by its name
-									return this.fileList(`${entity}/${id}`, {
-										search: file.name,
+									// Get the full path of the file we just uploaded inside the bucket
+									const fullUploadedPath = sbFile.path;
+
+									// Split it into the directory and the filename
+									const pathParts = fullUploadedPath.split('/');
+									const searchFilename = pathParts.pop();
+									const directoryPathInBucket = pathParts.join('/');
+
+									// Construct the path that the fileList function expects
+									const listPath = `/${entity}/${directoryPathInBucket}`;
+
+									return this.fileList(listPath, {
+										search: searchFilename,
 										meta: false,
 										limit: 1,
 									})
-										.then(([newFile]) => this.replace(settings.metaPath(newFile), meta))
-										.then(()=> ({sbFile, file}))
+									.then(([newFile]) => {
+										return this.replace(settings.metaPath(newFile), meta)
+									})
+									.then(()=> ({sbFile, file}))
 								} else {
 									return {sbFile, file};
 								}
