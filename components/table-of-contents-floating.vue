@@ -53,7 +53,8 @@ export default {
 	},
 	mounted() {
 		// Bind to <table-of-contents-area> and trigger a close if we are autoClosing
-		this.toc.$el.addEventListener('selectSection', ()=> this.autoClose && this.close());
+		if (this.toc.$el)
+			this.toc.$el.addEventListener('selectSection', ()=> this.autoClose && this.close());
 	},
 }
 </script>
