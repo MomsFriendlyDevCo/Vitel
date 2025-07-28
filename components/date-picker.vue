@@ -8,6 +8,7 @@ export default {
 
 		/**
 		* V-model binding
+		*
 		* @type {String|Date}
 		*/
 		modelValue: {type: [String, Date]},
@@ -15,13 +16,14 @@ export default {
 
 		/**
 		* Output type required
-		* @type {'iso'}
+		*
+		* @type {'date'|'time'|'iso'|'iso-date'|'iso-time'} 'date' (JS Date instance), 'date-only' (JS date instance with time set to '00:00') 'time' (JS Date instance but with date component set to '00-00-00'), 'iso' (ISO8601 output string), 'iso-date' (ISO8601 date component only), 'iso-time' (ISO8601 with date set to 00-00-00 but time component retained)
 		*/
-		type: {type: String, default: 'iso', validator: v => ['iso'].includes(v)},
+		type: {type: String, default: 'iso', validator: v => ['date'].includes(v)},
 
 
 		/**
-		* Format the new vaue into a pure date, pure time or combined date (or object) before emitting
+		* Format the new value into a pure date, pure time or combined date (or object) before emitting
 		* Can be overriden / subclassed
 		*
 		* @param {String} v The input string to format
@@ -33,10 +35,18 @@ export default {
 			let asDate = new Date(v);
 
 			switch (t) {
+				case 'date':
+					return asDate;
+				case 'date-only':
+					throw new Error('format="date-only" is not yet supported');
+				case 'time':
+					throw new Error('format="time" is not yet supported');
 				case 'iso':
 					return asDate.toISOString();
 				case 'iso-date':
 					return this.formatAsDate(asDate);
+				case 'iso-time':
+					throw new Error('format="iso-time" is not yet supported');
 				default:
 					throw new Error(`Unsupported date-picker type "${t}"`);
 			}
@@ -69,10 +79,7 @@ export default {
 		*/
 		domValue() {
 			switch (this.type) {
-				case 'iso':
-					let give = this.formatDateTimeString(this.inputValueAsDate);
-					console.log('New DOM value =', give);
-					return give;
+				case 'iso': return this.formatDateTimeString(this.inputValueAsDate);
 				case 'iso-date': return this.formatDateString(this.inputValueAsDate);
 				case 'iso-time': return this.formatTimeString(this.inputValueAsDate);
 				default: throw new Error(`Unsupported date-picker type "${this.type}"`);
@@ -160,11 +167,9 @@ export default {
 </script>
 
 <template>
-	<div>
-		<input
-			:value="domValue"
-			:type="domType"
-			@change="change"
-		/>
-	</div>
+	<input
+		:value="domValue"
+		:type="domType"
+		@change="change"
+	/>
 </template>
