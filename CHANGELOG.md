@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.27.1](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.27.0...v1.27.1) (2025-07-31)
+
+
+### Bug Fixes
+
+* File upload AND state saving now working ([2b67082](https://github.com/MomsFriendlyDevCo/Vitel/commit/2b67082b6ac79c3a273d283b4933e1a816acc5c4))
+
+# [1.27.0](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.26.0...v1.27.0) (2025-07-31)
+
+
+### Bug Fixes
+
+* Issues with saving in nested dir (e.g. `data.json/data.json`) ([61d17e8](https://github.com/MomsFriendlyDevCo/Vitel/commit/61d17e830efacfef98500fe888107f6bb242b686))
+* Rebuild package-lock ([d59dd77](https://github.com/MomsFriendlyDevCo/Vitel/commit/d59dd774a61ea5bd8613f9401aeb10097a1ee30e))
+
+
+### Features
+
+* <date-picker> ([19dfdd8](https://github.com/MomsFriendlyDevCo/Vitel/commit/19dfdd8c65b252895e2d909812a1600592712d58))
+
 # [1.26.0](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.25.2...v1.26.0) (2025-07-27)
 
 

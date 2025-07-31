@@ -673,15 +673,13 @@ export default {
 									})
 							})
 							.then(({file, meta}) => {
-								// Check if the original input was a Blob. If so, it had no name,
-								// and the `path` argument must be treated as the full final path.
-								// We also check for 'pojo' mode which behaves the same way.
-								let finalUploadPath = settings.mode === 'pojo' || (settings.mode === 'encoded' && options.file instanceof Blob) ?
-									// In this case, pathPrefix *is* the full path including the filename.
-									pathPrefix
-									// Otherwise, the file object has its own name. The `path` argument
-									// is the directory, so we append the file's name.
-									: `${pathPrefix}/${file.name}`
+								// Determine if the `path` argument should be treated as the full filename.
+								// This is true if the original input was a POJO or a raw Blob, as they don't have an intrinsic filename.
+								// Note: We must check that it's a Blob but NOT a File, since File inherits from Blob but has a name.
+								const isPathTheFullFilename = isPlainObject(options.file) || (options.file instanceof Blob && !(options.file instanceof File));
+								let finalUploadPath = isPathTheFullFilename
+									? pathPrefix // Use the path as-is (e.g., 'data.json')
+									: `${pathPrefix}/${file.name}`; // Append the filename (e.g., 'images/upload.png')
 								return this.supabase.storage
 								.from(entity)
 								.upload(finalUploadPath, file, {
