@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.27.1](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.27.0...v1.27.1) (2025-07-31)
+
+
+### Bug Fixes
+
+* File upload AND state saving now working ([2b67082](https://github.com/MomsFriendlyDevCo/Vitel/commit/2b67082b6ac79c3a273d283b4933e1a816acc5c4))
+
 # [1.27.0](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.26.0...v1.27.0) (2025-07-31)
 
 
