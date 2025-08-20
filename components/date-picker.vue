@@ -1,6 +1,11 @@
 <script>
 /**
 * Wrapper around the native DOM `<input type="datetime-local">` element to accept and return sane responses
+*
+* - Tolerant of input types - can pass either native JS Dates or ISO parsable strings
+* - Multiple output types supported - Dates, ISO8601 strings, dates (no time) and Times (no dates)
+* - Zero dependencies
+* - Uses native HTML components only - should work with mobile devices out of the box
 */
 export default {
 	emits: ['update:modelValue'],
@@ -17,9 +22,9 @@ export default {
 		/**
 		* Output type required
 		*
-		* @type {'date'|'time'|'iso'|'iso-date'|'iso-time'} 'date' (JS Date instance), 'date-only' (JS date instance with time set to '00:00') 'time' (JS Date instance but with date component set to '00-00-00'), 'iso' (ISO8601 output string), 'iso-date' (ISO8601 date component only), 'iso-time' (ISO8601 with date set to 00-00-00 but time component retained)
+		* @type {'date'|'iso8601'|'iso8601-date'|'iso8601-time'} 'date' (JS Date instance), 'iso8601' (ISO8601 full output string), 'iso8601-date' (ISO8601 string with only the date component), 'iso8601-time' (ISO8601 string with only the time component - everything after "T")
 		*/
-		type: {type: String, default: 'iso', validator: v => ['date'].includes(v)},
+		type: {type: String, default: 'date', validator: v => ['date', 'iso8601', 'iso8601-date', 'iso8601-time'].includes(v)},
 
 
 		/**
@@ -37,19 +42,31 @@ export default {
 			switch (t) {
 				case 'date':
 					return asDate;
-				case 'date-only':
-					throw new Error('format="date-only" is not yet supported');
-				case 'time':
-					throw new Error('format="time" is not yet supported');
-				case 'iso':
+				case 'iso8601':
 					return asDate.toISOString();
-				case 'iso-date':
+				case 'iso8601-date':
 					return this.formatAsDate(asDate);
-				case 'iso-time':
-					throw new Error('format="iso-time" is not yet supported');
+				case 'iso8601-time':
+					return this.formatTimeString(asDate);
 				default:
 					throw new Error(`Unsupported date-picker type "${t}"`);
 			}
+		}},
+
+
+		/**
+		* Take a date (either from prop input or from user change events) and mask out the date component leaving only the time
+		*
+		* @param {Date} date The input date object, which may contain the day/month/year component
+		*
+		* @returns {Date} A date object with the day/month/year component removed (or otherwise masked to a value)
+		*/
+		timeMask: {type: Function, default(date) {
+			let base = new Date(date.toISOString()); // CLone date
+			base.setDate(0);
+			base.setMonth(0);
+			base.setYear(0);
+			return base;
 		}},
 	},
 	computed: {
@@ -60,12 +77,26 @@ export default {
 		* @returns {Date} The native JS Date object for `modelValue`
 		*/
 		inputValueAsDate() {
-			if (this.modelValue instanceof Date) {
+			if (this.modelValue instanceof Date) { // Given raw Date - use that
 				return this.modelValue;
-			} else if (typeof this.modelValue == 'string') {
+			} else if (typeof this.modelValue == 'string' && ['date', 'iso8601', 'iso8601-date'].includes(this.type)) { // Expecting a full date and given a string - assume ISO8601 and parse that into a Date
 				let candidateDate = new Date(this.modelValue);
 				if (Number.isNaN(candidateDate) || candidateDate.toISOString() != this.modelValue) throw new Error(`Invalid date input "${this.modelValue}"`);
 				return candidateDate;
+			} else if (typeof this.modelValue == 'string' && ['iso8601-time'].includes(this.type)) { // Expecting a time component - assume "THH:MM:SS.MMM" or similar and mask that into a Date
+				let candidateDateTime = new Date(this.modelValue); // Try to parse as a date
+				if (!Number.isNaN(candidateDateTime) && candidateDateTime.toISOString() == this.modelValue) { // Parsed as ISO8601 date from string input
+					return this.timeMask(candidateDateTime);
+				} else { // Try to parse only time component
+					let timeParser = /^T?(?<hour>\d{1,2}):(?<min>\d{1,2})(?::(?<sec>\d{1,2}))?(?:.(?<ms>\d{1,3}))?$/.exec(this.modelValue)?.groups;
+					if (!timeParser) throw new Error(`Unable to parse input time string "${this.modelValue}"`);
+					let dateTime = new Date();
+					dateTime.setHour(timeParser.hour);
+					dateTime.setMinute(timeParser.min || 0);
+					dateTime.setSecond(timeParser.sec || 0);
+					dateTime.setMilliseconds(timeParser.ms || 0);
+					return this.timeMask(dateTime);
+				}
 			} else {
 				throw new Error('Unsupported date input type');
 			}
@@ -75,14 +106,19 @@ export default {
 		/**
 		* Convert the input value (from `inputValueAsDate()`) into the various formats `<input :type="domType">` needs
 		*
-		* @returns {String} The DOM compatible string, suitable for populateing `<input :type="domType">`
+		* @returns {String} The DOM compatible string, suitable for populating `<input :type="domType" :value>`
 		*/
 		domValue() {
 			switch (this.type) {
-				case 'iso': return this.formatDateTimeString(this.inputValueAsDate);
-				case 'iso-date': return this.formatDateString(this.inputValueAsDate);
-				case 'iso-time': return this.formatTimeString(this.inputValueAsDate);
-				default: throw new Error(`Unsupported date-picker type "${this.type}"`);
+				case 'date':
+				case 'iso8601':
+					return this.formatDateTimeString(this.inputValueAsDate);
+				case 'iso8601-date':
+					return this.formatDateString(this.inputValueAsDate);
+				case 'iso8601-time':
+					return this.formatTimeString(this.inputValueAsDate);
+				default:
+					throw new Error(`Unsupported date-picker type "${this.type}"`);
 			}
 		},
 
@@ -90,14 +126,19 @@ export default {
 		/**
 		* Determine the <input> type to use within the DOM from the various input formats
 		*
-		* @returns {String} The DOM compatible `<input type>` value
+		* @returns {String} The DOM compatible `<input :type>` value
 		*/
 		domType() {
 			switch (this.type) {
-				case 'iso': return 'datetime-local';
-				case 'iso-date': return 'date';
-				case 'iso-time': return 'time';
-				default: throw new Error(`Unsupported date-picker type "${this.type}"`);
+				case 'date':
+				case 'iso8601':
+					return 'datetime-local';
+				case 'iso8601-date':
+					return 'date';
+				case 'iso8601-time':
+					return 'time';
+				default:
+					throw new Error(`Unsupported date-picker type "${this.type}"`);
 			}
 		},
 	},
@@ -118,7 +159,7 @@ export default {
 
 
 		/**
-		* Utility function to convert a native JS Date into the DOM type needed by `<input type="datetime-local">`
+		* Utility function to convert a native JS Date into the DOM value needed by `<input type="datetime-local">`
 		*
 		* @param {Date} v Input date to format
 		* @returns {String} The DOM datetime-local type
@@ -133,7 +174,7 @@ export default {
 
 
 		/**
-		* Utility function to convert a native JS Date into the DOM type needed by `<input type="date">`
+		* Utility function to convert a native JS Date into the DOM value needed by `<input type="date">`
 		*
 		* @param {Date} v Input date to format
 		* @returns {String} The DOM date type
@@ -150,17 +191,25 @@ export default {
 
 
 		/**
-		* Utility function to convert a native JS Date into the DOM type needed by `<input type="time">`
+		* Utility function to convert a native JS Date into the DOM value needed by `<input type="time">`
 		*
 		* @param {Date} v Input date to format
 		* @returns {String} The DOM time type
 		*/
 		formatTimeString(v) {
-			return (
-				(''+v.getHours()).padStart(2, '0')
-				+ ':'
-				+ (''+v.getMinutes()).padStart(2, '0')
-			);
+			return [
+				(''+v.getHours()).padStart(2, '0'),
+				':',
+				(''+v.getMinutes()).padStart(2, '0'),
+				...(v.getSeconds() > 0 ? [
+					':',
+					(''+v.getSeconds()).padStart(2, '0'),
+				] : []),
+				...(v.getMilliseconds() > 0 ? [
+					'.',
+					(''+v.getMilliseconds()).padStart(3, '0'),
+				] : []),
+			].join('');
 		},
 	},
 }
