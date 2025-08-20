@@ -93,7 +93,7 @@ export default {
 	z-index: var(--toc-zindex);
 
 	display: flex;
-	justify-contnet: center;
+	justify-content: center;
 	align-items: center;
 
 	transition: left 0.2s ease-out;
@@ -142,7 +142,7 @@ export default {
 
 		& .table-of-contents-floating-handle {
 			display: flex;
-			justify-contnet: center;
+			justify-content: center;
 			align-items: center;
 
 			transition: opacity 0.2s ease-out, scale 0.2s ease-out;
