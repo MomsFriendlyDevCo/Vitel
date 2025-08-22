@@ -76,6 +76,16 @@ export default {
 
 
 		/**
+		* Automatically add `Authentication: Bearer ${TOKEN}` to outgoing $http service handled requests
+		* If this is boolean true, its added to all requests
+		* If a function is provided it is run as an async function with `(config:AxiosRequest)` and the header appended if it returns truthy
+		*
+		* @type {Boolean|Function}
+		*/
+		appendAuthenticationHeader: {type: [Boolean, Function], default: false},
+
+
+		/**
 		* Async callback triggered before a refresh occurs
 		* Called as `()` with this service as its context. this function is not expected to return a response
 		* @type {Function}
@@ -259,9 +269,36 @@ export default {
 					console.warn('Error when restoring login:', e);
 				})
 		},
+
+
+		/**
+		* Axios middleware that gets added in if `appendAuthenticationHeader` is non-falsy
+		* This function gets injected as an Axios request interceptor in the watch condition after loading
+		*
+		* @param {AxiosRequest} config The AxiosRequest config object we will optionally mutate
+		* @returns {AxiosRequest} The eventual AxiosRequest config object post mutation
+		*/
+		axiosRequestMiddleware(config) {
+			return Promise.resolve()
+				.then(()=>
+					this.appendAuthenticationHeader === true ? true
+					: typeof this.appendAuthenticationHeader == 'function' ? this.appendAuthenticationHeader(config)
+					: false
+				)
+				.then(addHeader => addHeader ? this.kinde.getToken() : false)
+				.then(headerToken => {
+					if (!headerToken) return;
+					config.headers['Authorization'] = `Bearer ${headerToken}`;
+				})
+				.then(()=> config)
+				.catch(e => {
+					console.error('Something went wrong while running $authKinde.axiosRequestMiddleware() -', e);
+					throw e;
+				})
+		},
 	},
 	created() {
-		return this.$services.require('$events')
+		return this.$services.require('$events', '$http')
 			.then(()=> {
 				if (this.bypassEmail) {
 					// Bypass Login - this should only occur on local dev instances
@@ -282,6 +319,10 @@ export default {
 						.then(()=> this.autoRestoreLogin && this.restoreLogin())
 						.catch(this.$toast.catch)
 				}
+			})
+			.then(()=> { // Glue $auth -> $http header token append behaviour
+				if (!this.appendAuthenticationHeader) return;
+				this.$http.axios.interceptors.request.use(this.axiosRequestMiddleware);
 			})
 	},
 }
