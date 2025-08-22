@@ -1,5 +1,19 @@
 # Changelog
 
+# [1.28.0](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.27.1...v1.28.0) (2025-08-22)
+
+
+### Bug Fixes
+
+* **<date-picker>:** More misc fixes for <date-picker/> ([3829d5c](https://github.com/MomsFriendlyDevCo/Vitel/commit/3829d5c2ec2f9bf3b45d4674f33a625f43b339d3))
+* **<table-of-contents/>:** Spelling ([e2ed891](https://github.com/MomsFriendlyDevCo/Vitel/commit/e2ed8914525d0e9b4e5bc4e28e2225610417bed2))
+
+
+### Features
+
+* **<date-picker>:** Added more date formats ([c0693cf](https://github.com/MomsFriendlyDevCo/Vitel/commit/c0693cfbec3a8042c4e6b60df412f141caf99435))
+* **$authKinde:** appendAuthenticationHeader flag ([16fbe30](https://github.com/MomsFriendlyDevCo/Vitel/commit/16fbe30dc8ec8765121df5a6a80fe573f5031560))
+
 ## [1.27.1](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.27.0...v1.27.1) (2025-07-31)
 
 
