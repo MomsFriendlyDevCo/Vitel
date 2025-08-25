@@ -1,4 +1,6 @@
 <script>
+import timestring from 'timestring';
+
 /**
 * Simple component which either fetches a single point of data from the server and displays it OR allows a slot wrapper for the fetched data
 * This component also has automatic lazy loading - the component only fetches data when its actually visible rather than triggering on page load
@@ -6,6 +8,8 @@
 * @param {String|Object} [url] The URL or AxiosRequest to fetch data (instead of specifying `collection` + `id`)
 * @param {String} [field="title"] Field to display the title of, if using slots specify "*" to populate `data` with the raw data object
 * @param {Function|String} [filter] Optional function filter or named Vue filter to run the result through before outputting
+* @param {String} [cache] Simple cache-for-x caching for the digest endpoint, prevents refreshing if the component gets hydrated. Can be any `timestring()` parsable value
+* @param {Function} [cacheKey] Cache key within sessionStorage to use, defaults to `digest-${url}`. Called as `(instance:VueComponent)`
 * @param {String} [label] Use this label before fetching a remote one, if specifed the entity is treated as valid (including valid class and icon)
 * @param {Boolean} [lazy=true] If true, fetching will be defered until the element is actually shown within the content area
 * @param {String} [lazyParents='#content, #main, body'] jQuery compatible string listing the intersection parents to probe for when lazy==true, the first one found is assumed to be the parent
@@ -52,6 +56,15 @@ export default {
 		url: {type: [Object, String], required: true},
 		field: {type: String, default: "title"},
 		filter: {type: [Function, String]},
+		cache: {type: String},
+		cacheKey: {type: Function, default() {
+			return [
+				'digest',
+				typeof this.url == 'string' ? this.url
+				: typeof this.url == 'object' ? this.url.url
+				: this.cache && (()=> { throw new Error('Cannot determine cache key - must specify an alternate <digest :cache-key="Function"/> binding') })(),
+			].join('-');
+		}},
 		label: {type: String},
 		lazy: {type: Boolean, default: true},
 		lazyParents: {type: String, default: '#content, #main, body'},
@@ -75,12 +88,41 @@ export default {
 				this.displayIcon = this.iconValid;
 				this.loading = false;
 			} else { // Fetch remote data
-				return this.$http[this.httpWrapper]({
-					method: 'GET',
-					url: this.url,
-					hashMethod: this.hashMethod,
-				})
-					.then(({data}) => { // Reduce to requested field if specified
+				return Promise.resolve()
+					.then(()=> { // Use caching?
+						if (!this.cache) return; // Cache disabled - fall through
+
+						let cacheKey = this.cacheKey.apply(this, this);
+						let cacheItem = globalThis.sessionStorage.getItem(cacheKey);
+						if (cacheItem) { // Have a cache Item
+							let now = new Date();
+							cacheItem = JSON.parse(cacheItem);
+							if (cacheItem.expires < now) { // Cache item has expired
+								globalThis.sessionStorage.removeItem(cacheKey); // Expire key
+								return; // Exit out
+							}
+							return cacheItem.data; // Extract data and use that
+						} // implied else - no cache - fall through to fetching the fresh data
+					})
+					.then(cacheData => cacheData || this.$http[this.httpWrapper]({
+						method: 'GET',
+						url: this.url,
+						hashMethod: this.hashMethod,
+					})
+						.then(({data}) => data)
+						.then(data => { // Optionally cache data for next time
+							if (!this.cache) return data;
+
+							let cacheKey = this.cacheKey.apply(this, this);
+							globalThis.sessionStorage.setItem(cacheKey, JSON.stringify({
+								expires: new Date(Date.now() + timestring(this.cache, 'ms')),
+								data,
+							}));
+
+							return data;
+						})
+					)
+					.then(data => { // Reduce to requested field if specified
 						if (this.field && data[this.field] !== undefined) {
 							return data[this.field];
 						} else if (this.field) {
@@ -96,9 +138,9 @@ export default {
 							: value;
 
 						if (this.filter) {
-							if (_.isFunction(this.filter)) {
+							if (typeof this.filter == 'function') {
 								this.displayContent = this.filter(this.displayContent) // As func(v)
-							} else if (_.isString(this.filter)) {
+							} else if (typeof this.filter == 'string') {
 								var filter = this.$filters[this.filter];
 								if (!filter) throw new Error(`Unknown filter "${this.filter}" specified in <digest filter/>`);
 								this.displayContent = filter(this.displayContent); // As named filter
@@ -166,7 +208,7 @@ export default {
 			name="display"
 			:config="$props"
 			:data="data"
-			:displayContent="displayContent"
+			:display-content="displayContent"
 		>
 			<div :class="displayClass">
 				<i v-if="displayIcon" :class="displayIcon"/>
