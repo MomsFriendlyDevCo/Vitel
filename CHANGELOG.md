@@ -1,5 +1,17 @@
 # Changelog
 
+# [1.29.0](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.28.0...v1.29.0) (2025-08-25)
+
+
+### Bug Fixes
+
+* **<v-table>:** $props.foregroundLoader ignored during v-table bootstrap ([cb25f12](https://github.com/MomsFriendlyDevCo/Vitel/commit/cb25f121c2ed598a143559f18aafe0e926e4ead3))
+
+
+### Features
+
+* **<digest>:** Now has :cache + :cache-key for simple key-val (via URL) data caching ([8e40d7c](https://github.com/MomsFriendlyDevCo/Vitel/commit/8e40d7c7f0a5c58df6fcf14da0c2a776abd8b1d4))
+
 # [1.28.0](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.27.1...v1.28.0) (2025-08-22)
 
 
