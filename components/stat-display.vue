@@ -205,15 +205,17 @@ export default {
 
 			& .stat-display-value {
 				color: var(--bs-primary);
+				font-weight: bold;
 			}
 
 			& .stat-display-divider {
-				color: var(--bs-light);
+				color: var(--bs-text);
 				margin: 0 10px;
+				opacity: 0.5;
 			}
 
 			& .stat-display-max {
-				color: var(--bs-secondary);
+				color: var(--bs-primary);
 			}
 		}
 	}
