@@ -74,10 +74,12 @@ export default {
 		/**
 		* Convert the input value (string or Date) into a native JS Date instance
 		*
-		* @returns {Date} The native JS Date object for `modelValue`
+		* @returns {Date|Null} The native JS Date object for `modelValue`, or null if one isn't provided
 		*/
 		inputValueAsDate() {
-			if (this.modelValue instanceof Date) { // Given raw Date - use that
+			if (!this.modelValue) { // Empty value
+				return null;
+			} else if (this.modelValue instanceof Date) { // Given raw Date - use that
 				return this.modelValue;
 			} else if (typeof this.modelValue == 'string' && ['date', 'iso8601', 'iso8601-date'].includes(this.type)) { // Expecting a full date and given a string - assume ISO8601 and parse that into a Date
 				let candidateDate = new Date(this.modelValue);
@@ -98,7 +100,7 @@ export default {
 					return this.timeMask(dateTime);
 				}
 			} else {
-				throw new Error('Unsupported date input type');
+				throw new Error(`Unsupported date input type "${this.modelValue}"`);
 			}
 		},
 
@@ -109,6 +111,8 @@ export default {
 		* @returns {String} The DOM compatible string, suitable for populating `<input :type="domType" :value>`
 		*/
 		domValue() {
+			if (!this.inputValueAsDate) return ''; // No value present
+
 			switch (this.type) {
 				case 'date':
 				case 'iso8601':
