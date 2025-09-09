@@ -80,12 +80,15 @@ export default {
 			if (!this.modelValue) { // Empty value
 				return null;
 			} else if (this.modelValue instanceof Date) { // Given raw Date - use that
+				this.checkDateOrThrow(this.modelValue);
 				return this.modelValue;
 			} else if (typeof this.modelValue == 'string' && ['date', 'iso8601', 'iso8601-date'].includes(this.type)) { // Expecting a full date and given a string - assume ISO8601 and parse that into a Date
+				this.checkDateOrThrow(this.modelValue);
 				let candidateDate = new Date(this.modelValue);
 				if (Number.isNaN(candidateDate) || candidateDate.toISOString() != this.modelValue) throw new Error(`Invalid date input "${this.modelValue}"`);
 				return candidateDate;
 			} else if (typeof this.modelValue == 'string' && ['iso8601-time'].includes(this.type)) { // Expecting a time component - assume "THH:MM:SS.MMM" or similar and mask that into a Date
+				this.checkDateOrThrow(this.modelValue);
 				let candidateDateTime = new Date(this.modelValue); // Try to parse as a date
 				if (!Number.isNaN(candidateDateTime) && candidateDateTime.toISOString() == this.modelValue) { // Parsed as ISO8601 date from string input
 					return this.timeMask(candidateDateTime);
@@ -157,8 +160,25 @@ export default {
 		*/
 		change(e) {
 			let newValue = this.format.call(this, e.target.value, this.type, this);
-			console.log('NEW VALUE', newValue);
 			this.$emit('update:modelValue', newValue);
+		},
+
+
+		/**
+		* Utility function to check if a given Date object is valid
+		* This function tries to be as useful as it can when throwing but for best results pass it a raw value like a string
+		*
+		* @param {Date|String} date The date object to validate as either a Date instance OR parsable string
+		*/
+		checkDateOrThrow(date) {
+			if (date instanceof Date) {
+				if (isNaN(date.getTime())) throw new Error('Input Date object is not valid');
+			} else if (typeof date == 'string') {
+				let dateObject = new Date(date);
+				if (isNaN(dateObject)) throw new Error(`Input date string "${date}" is not valid`);
+			} else {
+				throw new Error(`Unknown date type ${date}`);
+			}
 		},
 
 
