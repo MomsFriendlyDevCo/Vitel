@@ -123,9 +123,11 @@ export default {
 						})
 					)
 					.then(data => { // Reduce to requested field if specified
-						if (this.field && data[this.field] !== undefined) {
+						if (this.field == '*' && data) {
+							return data;
+						} else if (this.field && this.field != '*' && data[this.field] !== undefined) {
 							return data[this.field];
-						} else if (this.field) {
+						} else if (this.field && this.field != '*') {
 							console.trace(`Data from URL ${this.url} does not contain field "${this.field}"`, data);
 						} else {
 							return data;
