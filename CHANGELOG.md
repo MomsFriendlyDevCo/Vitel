@@ -1,5 +1,18 @@
 # Changelog
 
+# [1.30.0](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.29.0...v1.30.0) (2025-09-09)
+
+
+### Bug Fixes
+
+* **<date-picker>:** Date picker component can now handle null / empty values ([46c432e](https://github.com/MomsFriendlyDevCo/Vitel/commit/46c432e8cc59ae0ec0388e9e4411877b648fc4bf))
+* **<digest>:** Better handling for <digest :cache :field="*"> ([74c5f90](https://github.com/MomsFriendlyDevCo/Vitel/commit/74c5f909c6d09e6b22e4876c1d8a6bd041be83f3))
+
+
+### Features
+
+* <stat-display> widget ([5018efc](https://github.com/MomsFriendlyDevCo/Vitel/commit/5018efc94050df500faaa35c3097d3208c2e96a7))
+
 # [1.29.0](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.28.0...v1.29.0) (2025-08-25)
 
 
