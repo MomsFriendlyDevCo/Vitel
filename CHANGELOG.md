@@ -1,5 +1,17 @@
 # Changelog
 
+# [1.31.0](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.30.0...v1.31.0) (2025-09-09)
+
+
+### Bug Fixes
+
+* **<btn-states>:** Wrong method used to determine if a state is tolerable ([3f1ffd8](https://github.com/MomsFriendlyDevCo/Vitel/commit/3f1ffd8a20638682b5aaccf9d315859a9955182b))
+
+
+### Features
+
+* **<date-picker>:** More useful debugging when passing <date-picker> an invalid or non-parsable date ([c904e86](https://github.com/MomsFriendlyDevCo/Vitel/commit/c904e86139c30d74a3f6b979e0c1d27e8a635d3d))
+
 # [1.30.0](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.29.0...v1.30.0) (2025-09-09)
 
 
