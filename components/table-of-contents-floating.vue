@@ -85,6 +85,8 @@ export default {
 	--toc-bg: var(--bs-light);
 	--toc-border: 1px solid #000;
 	--toc-zindex: 100;
+	--toc-color-inactive: #777;
+	--toc-color-active: var(--bs-primary);
 
 	position: fixed;
 	top: 0px;
@@ -104,8 +106,8 @@ export default {
 	&:not(.open) {
 		left: calc(0px - var(--toc-display-width));
 		& .table-of-contents-floating-handle {
-			opacity: 0.4;
 			scale: 0.8;
+			color: var(--toc-color-inactive);
 		}
 	}
 
@@ -145,7 +147,7 @@ export default {
 			justify-content: center;
 			align-items: center;
 
-			transition: opacity 0.2s ease-out, scale 0.2s ease-out;
+			transition: color 0.2s ease-out, scale 0.2s ease-out;
 
 			height: var(--toc-handle-height);
 			width: var(--toc-handle-width);
@@ -161,7 +163,7 @@ export default {
 			&:hover {
 				border: 1px solid var(--bs-primary);
 				border-left: 0;
-				opacity: 1;
+				color: var(--toc-color-active);
 				scale: 1;
 			}
 		}
