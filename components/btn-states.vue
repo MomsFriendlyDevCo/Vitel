@@ -123,7 +123,7 @@ export default {
 		*/
 		select(value) {
 			let newStateIndex = this.states.findIndex(s => s === value || s.value === value);
-			if (!newStateIndex) throw new Error('<btn-states/>.select() trying to set to an unknown state');
+			if (newStateIndex < 0) throw new Error('<btn-states/>.select() trying to set to an unknown state');
 			this.state = newStateIndex;
 			this.$emit('change', this.activeState.value);
 			this.closeDropdown();
