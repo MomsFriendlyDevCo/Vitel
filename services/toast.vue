@@ -11,15 +11,19 @@ export default {
 	props: {
 		/**
 		* Main VueApp instance to decorate
+		*
 		* @type {VueApp}
 		*/
 		app: {type: Object, required: true},
 	},
 	methods: {
+
 		/**
 		* Create a toast which shows a loading progress spinner
+		*
 		* @param {String} text The text to display
 		* @param {Object} [options] Additional options
+		*
 		* @returns {String} The toast ID associated with the created item
 		*/
 		loading(text, options) {
@@ -29,9 +33,14 @@ export default {
 
 		/**
 		* Update an existing toast by its ID
+		*
 		* @param {String} id The toast ID to update (returned by the toast creation function)
 		* @param {String} [text] The text to update to
 		* @param {Object} [options] Additional options to update
+		*
+		* @example Create a toast, wait a second then change its text
+		* let toast = this.$toast.info('Processing');
+		* setTimeout(()=> this.$toast.update(toast, 'Done!'), 1000);
 		*/
 		update(id, text, options) {
 			// Argument mangling {{{
@@ -50,6 +59,7 @@ export default {
 		/**
 		* Utility function to mark a pending toast as dismissable but not immediately remove it
 		* This inherits the ability to close on click + a timeout
+		*
 		* @param {String} id The toast ID to mark as closable
 		* @param {Object} [options] Additional update options to merge with the toasts settings (works the same was as `update()`
 		*/
@@ -65,10 +75,15 @@ export default {
 
 		/*
 		* Immediately remove a toast by its ID
+		*
 		* @param {String} id The toast ID to dismiss
 		* @param {Object} [options] Additional options to mutate behaviour
 		* @param {Number} [options.retry=3] How many times to try and close a potencially not-active-yet toast
 		* @param {Number} [options.retryDelay=200] Delay between retries
+		*
+		* @example Create a toast, wait a second then close it
+		* let toast = this.$toast.info('Processing');
+		* setTimeout(()=> this.$toast.close(toast), 1000);
 		*/
 		close(id, options) {
 			let settings = {
