@@ -194,6 +194,7 @@ export default {
 		*/
 		Object.entries({
 			create: {type: 'default'},
+			info: {type: 'info'},
 			success: {type: 'success'},
 			warn: {type: 'warning'},
 			warning: {type: 'warning'},
