@@ -20,7 +20,6 @@ export default {
 		*/
 		async push(dialog) {
 			if (!dialog.id) dialog.id = `prompt-${Date.now()}`;
-			console.info('$prompt.push', dialog);
 
 			this.$prompt.stack.push(dialog);
 			await this.$nextTick();
