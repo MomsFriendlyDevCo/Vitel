@@ -3,13 +3,36 @@ import {sortBy} from 'lodash-es';
 
 /**
 * Simple timeline display of items
+*
+* @slot icon Overriding icon template. Bound with `:item`
+* @slot body Overriding body template - this wraps title + content + date. Bound with `:item`
+* @slot title Overriding title template. Bound with `:item`
+* @slot content Overriding content template. Bound with `:item`
+* @slot date Overriding date template. Bound with `:item`
 */
 export default {
+	data() { return {
+		/**
+		* How to position the timeline sideline
+		* This is updated by `repositionSideline()` + a resizeObserver
+		*
+		* @type {Object?}
+		* @property {Number} top The top offset
+		* @property {Number} bottom The top offset
+		*/
+		sidelinePosition: null,
+
+		/**
+		* Subscribed resize handler when monitorig size + position
+		* @type {ResizeObserver}
+		*/
+		resizeObserver: null
+	}},
 	props: {
 		/**
 		* Input timeline items to process
 		*
-		* @typedef {TimelineItem}
+		* @typedef {Object} TimelineItem
 		* @type {Object}
 		* @property {String} id The unique identifier of the timeline item
 		* @property {Date|String} date The timestamp on each timeline item
@@ -88,14 +111,42 @@ export default {
 		},
 
 	},
+	methods: {
+		repositionSideline() {
+			if (!this.$el) return; // Mount not ready yet
+			console.log('Timeline reposition!');
+			let icons = [...(this.$el.querySelectorAll('.timeline-item-icon') ?? [])];
+
+			this.sidelinePosition = icons && icons.length > 1 && {
+				top: Math.ceil(icons.at(0).offsetTop + (icons.at(0).offsetHeight / 2)),
+				height: Math.ceil(icons.at(-1).offsetTop - (icons.at(0).offsetHeight / 2) + (icons.at(-1).offsetHeight / 2)),
+				left: Math.ceil(icons.at(0).offsetLeft + (icons.at(0).offsetWidth / 2)),
+			};
+		},
+	},
+	mounted() {
+		this.resizeObserver = new ResizeObserver(this.repositionSideline);
+		this.resizeObserver.observe(this.$el);
+
+		this.repositionSideline(); // Kickoff initial positioning
+	},
+	beforeUnmount() {
+		if (this.resizeObserver) this.resizeObserver.disconnect();
+	},
 }
 </script>
 
 <template>
 	<div class="timeline">
-		<div class="timeline-sideline"/>
-		<div class="timeline-sideline-knob-top"/>
-		<div class="timeline-sideline-knob-bottom"/>
+		<div
+			v-if="sidelinePosition"
+			class="timeline-sideline"
+			:style="{
+				'--timeline-sideline-left': `${sidelinePosition.left}px`,
+				'--timeline-sideline-top': `${sidelinePosition.top}px`,
+				'--timeline-sideline-height': `${sidelinePosition.height}px`,
+			}"
+		/>
 		<div
 			v-for="item in computedTimeline"
 			:key="item.id"
@@ -117,19 +168,23 @@ export default {
 				</div>
 			</div>
 			<div class="timeline-item-col-body">
-				<div v-if="item.title" class="timeline-item-title">
-					{{item.title}}
-				</div>
-				<div v-if="item.content" class="timeline-item-content">
-					<slot name="content" :item>
-						{{item.content}}
-					</slot>
-				</div>
-				<div v-if="item.date && item.showDate" class="timeline-item-date">
-					<slot name="date" :item>
-						{{item.date.toLocaleString()}}
-					</slot>
-				</div>
+				<slot name="body" :item>
+					<div v-if="item.title" class="timeline-item-title">
+						<slot name="title">
+							{{item.title}}
+						</slot>
+					</div>
+					<div v-if="item.content" class="timeline-item-content">
+						<slot name="content" :item>
+							{{item.content}}
+						</slot>
+					</div>
+					<div v-if="item.date && item.showDate" class="timeline-item-date">
+						<slot name="date" :item>
+							{{item.date.toLocaleString()}}
+						</slot>
+					</div>
+				</slot>
 			</div>
 		</div>
 	</div>
@@ -137,19 +192,9 @@ export default {
 
 <style lang="scss">
 :root {
-	--timeline-line-color: var(--bs-secondary);
-	--timeline-line-width: 4px;
-	--timeline-line-top: 10px;
-	--timeline-line-bottom: 10px;
-	--timeline-line-left: 28px;
-
-	--timeline-line-knob-top-size: 12px;
-	--timeline-line-knob-top-color: var(--bs-secondary);
-	--timeline-line-knob-bottom-size: 12px;
-	--timeline-line-knob-bottom-color: var(--bs-secondary);
-
+	--timeline-sideline-color: var(--bs-secondary);
+	--timeline-sideline-width: 4px;
 	--timeline-item-padding: 10px;
-	--timeline-item-icon-width: 30px;
 }
 
 .timeline {
@@ -158,34 +203,13 @@ export default {
 
 	& .timeline-sideline {
 		position: absolute;
-		background: var(--timeline-line-color);
-		top: var(--timeline-line-top);
-		bottom: var(--timeline-line-bottom);
-		left: var(--timeline-line-left);
-		width: var(--timeline-line-width);
+		background: var(--timeline-sideline-color);
+		top: var(--timeline-sideline-top);
+		height: var(--timeline-sideline-height);
+		left: calc(var(--timeline-sideline-left) - (var(--timeline-sideline-width) / 2));
+		width: var(--timeline-sideline-width);
 		z-index: 0;
 	}
-
-	& .timeline-sideline-knob-top {
-		position: absolute;
-		left: calc(var(--timeline-line-left) - (var(--timeline-line-knob-top-size) / 4));
-		top: var(--timeline-line-top);
-		height: var(--timeline-line-knob-top-size);
-		width: var(--timeline-line-knob-top-size);
-		background: var(--timeline-line-knob-top-color);
-		border-radius: 50%;
-	}
-
-	& .timeline-sideline-knob-bottom {
-		position: absolute;
-		left: calc(var(--timeline-line-left) - (var(--timeline-line-knob-top-size) / 4));
-		bottom: var(--timeline-line-bottom);
-		height: var(--timeline-line-knob-bottom-size);
-		width: var(--timeline-line-knob-bottom-size);
-		background: var(--timeline-line-knob-bottom-color);
-		border-radius: 50%;
-	}
-
 
 	& .timeline-item {
 		display: flex;
@@ -200,7 +224,6 @@ export default {
 			& .timeline-item-icon {
 				text-align: center;
 				margin: 0 20px 0 10px;
-				width: var(--timeline-item-icon-width);
 
 				& i {
 					padding: 0;
@@ -211,6 +234,7 @@ export default {
 		& .timeline-item-col-body {
 			display: flex;
 			flex-direction: column;
+			padding-top: 4px;
 
 			& .timeline-item-title {
 				font-weight: bold;
