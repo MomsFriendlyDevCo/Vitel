@@ -1,5 +1,13 @@
 # Changelog
 
+# [1.32.0](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.31.0...v1.32.0) (2025-09-16)
+
+
+### Bug Fixes
+
+* **$prompt:** Debug artefact ([7fd8b3d](https://github.com/MomsFriendlyDevCo/Vitel/commit/7fd8b3d54de892d1cea4a774e39d1aebf7bf6cc0))
+* **$toast:** Added missing "info" type ([1fa4a1a](https://github.com/MomsFriendlyDevCo/Vitel/commit/1fa4a1adfc042959dc9f04f1801a22b4005eca31))
+
 # [1.31.0](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.30.0...v1.31.0) (2025-09-09)
 
 
