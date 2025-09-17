@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.33.0](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.32.0...v1.33.0) (2025-09-17)
+
+
+### Features
+
+* <status-progression/> component ([1b5e0e6](https://github.com/MomsFriendlyDevCo/Vitel/commit/1b5e0e69da6fe6712b107c01e3be9bc702b62ebe))
+
 # [1.32.0](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.31.0...v1.32.0) (2025-09-16)
 
 
