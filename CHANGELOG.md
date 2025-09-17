@@ -1,5 +1,7 @@
 # Changelog
 
+## [1.33.1](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.33.0...v1.33.1) (2025-09-17)
+
 # [1.33.0](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.32.0...v1.33.0) (2025-09-17)
 
 
