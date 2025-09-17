@@ -103,6 +103,8 @@ export default {
 :root {
 	--progression-item-height: 30px;
 	--progression-item-width: 150px;
+	--progression-item-rounding: 20px;
+	--progression-item-spacing: -12px;
 }
 
 .progression {
@@ -120,7 +122,7 @@ export default {
 		width: var(--progression-item-width);
 
 		padding: 20px 22px;
-		margin: 0 -12px;
+		margin: 0 var(--progression-item-spacing);
 		clip-path: polygon(
 			80% 0%,
 			90% 50%,
@@ -130,6 +132,32 @@ export default {
 			0% 0%
 		);
 		color: var(--bs-white);
+
+		&:first-child {
+			clip-path: polygon(
+				80% 0%,
+				90% 50%,
+				80% 100%,
+				0% 100%,
+				0% 50%,
+				0% 0%
+			);
+			border-top-left-radius: var(--progression-item-rounding);
+			border-bottom-left-radius: var(--progression-item-rounding);
+		}
+
+		&:last-child {
+			clip-path: polygon(
+				100% 0%,
+				100% 50%,
+				100% 100%,
+				0% 100%,
+				10% 50%,
+				0% 0%
+			);
+			border-top-right-radius: var(--progression-item-rounding);
+			border-bottom-right-radius: var(--progression-item-rounding);
+		}
 
 		/* States {{{ */
 		&.progression-item-state-prev {
