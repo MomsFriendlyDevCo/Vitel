@@ -200,7 +200,7 @@ export default {
 					}
 				})
 				.then(()=> this.state = 'loading')
-				.then(()=> this.services && this.$loader && this.foregroundLoader && this.$loader.start())
+				.then(()=> this.services && this.$loader && this.loadForeground && this.$loader.start())
 				.then(()=> merge( // Calculate Axios request object
 					{}, // Empty object so we don't stomp on anything
 					typeof this.url == 'string' ? {url: this.url} : this.url, // Merge either single URL string OR entire url object
@@ -271,7 +271,7 @@ export default {
 						throw e;
 					}
 				})
-				.finally(()=> this.services && this.$loader && this.foregroundLoader && this.$loader.stop())
+				.finally(()=> this.services && this.$loader && this.loadForeground && this.$loader.stop())
 				.finally(()=> this.reloadCount++)
 				.finally(()=> this.refreshPromise = null)
 		},
