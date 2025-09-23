@@ -15,6 +15,7 @@ export default {
 		/**
 		* Push a dialog onto the model stack
 		* This has to be done at the moment level as there is a very strict order on when DOM elements + JS objects need creating that only Vue can manage
+		*
 		* @param {Object} dialog The dialog settings object from `$prompt.dialog()`
 		* @returns {Promise} A promise which resolves when the dialog is visible
 		*/
@@ -44,6 +45,7 @@ export default {
 
 		/**
 		* Pop the most recent dialog from the model stack
+		*
 		* @param {Boolean} [success=true] Whether the modal was closed successfully
 		* @param {*} [payload] Optional payload for the resolving promise
 		* @returns {Promise} A promise which resolves when the dialog has been destroyed
@@ -71,7 +73,6 @@ export default {
 		* Handle dialog button clicks
 		*
 		* @param {Object} button The button object used in the $prompt settings
-		*
 		* @returns {Promise} A promise which resolves when the operation has completed
 		*/
 		triggerButton(button) {

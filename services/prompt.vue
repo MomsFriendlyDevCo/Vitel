@@ -190,6 +190,11 @@ export default {
 					settings.promiseResolve = resolve;
 					settings.promiseReject = reject;
 				}))
+				.catch(e => {
+					if (e === undefined) return; // Ignore empty errors caused by the DOM when terminating modals with aria-hidden elements
+					this.debug('Promise chain error', e);
+					throw e;
+				})
 		},
 
 
@@ -217,6 +222,9 @@ export default {
 		* Like close but doesn't throw if no modal is open anyway
 		* Designed to be called by the router when moving between routes which can show prompts
 		* i.e. this function just dismisses all open modals
+		*
+		* @param {Boolean} [success=false] Close the dialog as if its interaction was successful
+		* @param {*} [payload] Optional payload when resolving the wrapping promise
 		* @returns {Boolean} True if any modals were dismissed
 		*/
 		closeIfOpen(success = false, payload) {
