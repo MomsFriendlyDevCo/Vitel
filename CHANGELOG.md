@@ -1,5 +1,17 @@
 # Changelog
 
+# [1.34.0](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.33.2...v1.34.0) (2025-09-23)
+
+
+### Bug Fixes
+
+* **$prompt:** Bypass errors with blank aria DOM throws when terminating modals ([d3d10a6](https://github.com/MomsFriendlyDevCo/Vitel/commit/d3d10a6559ec16e03673022149d53e53c71413a8))
+
+
+### Features
+
+* v-autosize for <textarea/> components ([2d41148](https://github.com/MomsFriendlyDevCo/Vitel/commit/2d41148d75620923f79a91fce13ce833e0b511bd))
+
 ## [1.33.2](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.33.1...v1.33.2) (2025-09-22)
 
 
