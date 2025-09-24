@@ -104,7 +104,7 @@ export default {
 					})
 			} else { // Give up and make the request as-is
 				this.debug(reqPrefix, 'Make fresh throttled request');
-				return this.throttles[hash] = this.axios.request(config)
+				return this.throttles[hash] = this.request(config)
 					.finally(()=> { // Resolved - remove from pending list
 						delete this.throttles[hash];
 					})
