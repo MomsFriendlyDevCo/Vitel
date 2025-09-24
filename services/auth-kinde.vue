@@ -289,10 +289,23 @@ export default {
 					: typeof this.appendAuthenticationHeader == 'function' ? this.appendAuthenticationHeader(config)
 					: false
 				)
-				.then(addHeader => addHeader ? this.kinde.getToken() : false)
-				.then(headerToken => {
-					if (!headerToken) return;
-					config.headers['Authorization'] = `Bearer ${headerToken}`;
+				.then(addHeader => addHeader
+					? this.kinde.getToken()
+						.then(token => ({
+							addHeader,
+							token,
+						}))
+					: {addHeader: false}
+				)
+				.then(({addHeader, token}) => {
+					if (!addHeader) { // Don't want token injecting anyway
+						return;
+					} else if (addHeader && !token) { // Want header but no token ready yet
+						console.warn('$auth - Want token injection for request', config, 'but no token to inject!');
+						debugger;
+					} else { // Want header + token ready
+						config.headers['Authorization'] = `Bearer ${token}`;
+					}
 				})
 				.then(()=> config)
 				.catch(e => {
