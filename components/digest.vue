@@ -93,6 +93,10 @@ export default {
 				this.loading = false;
 			} else { // Fetch remote data
 				return Promise.resolve()
+					.then(()=> this.$services.require( // Wait for precursor services before we refresh
+						'$auth?', // Optionally wait on $auth (if its available) as this may need to inject headers into $http
+						'$http' // Wait for $http as we need it for XHR
+					))
 					.then(()=> { // Use caching?
 						if (!this.cache) return; // Cache disabled - fall through
 
