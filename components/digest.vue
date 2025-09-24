@@ -8,7 +8,7 @@ import timestring from 'timestring';
 * @param {String|Object} [url] The URL or AxiosRequest to fetch data (instead of specifying `collection` + `id`)
 * @param {String} [field="title"] Field to display the title of, if using slots specify "*" to populate `data` with the raw data object
 * @param {Function|String} [filter] Optional function filter or named Vue filter to run the result through before outputting
-* @param {String} [cache] Simple cache-for-x caching for the digest endpoint, prevents refreshing if the component gets hydrated. Can be any `timestring()` parsable value
+* @param {String} [cache] If set to any timestring parsable value, will try to cache fetching the value for that amount of time
 * @param {Function} [cacheKey] Cache key within sessionStorage to use, defaults to `digest-${url}`. Called as `(instance:VueComponent)`
 * @param {String} [label] Use this label before fetching a remote one, if specifed the entity is treated as valid (including valid class and icon)
 * @param {Boolean} [lazy=true] If true, fetching will be defered until the element is actually shown within the content area
