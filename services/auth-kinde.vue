@@ -191,23 +191,27 @@ export default {
 		/**
 		* Try and register the user
 		*
+		* @param {Object} [options] Additional options to mutate behaviour - see https://docs.kinde.com/developer-tools/sdks/frontend/javascript-sdk/#login
+		*
 		* @returns {Promise} A promise which resolves when the operation has completed, although since this usually leads to a Kinde screen the original doc is often destroyed
 		*/
-		login() {
+		login(options) {
 			return this.promise()
-				.then(()=> this.kinde.login());
+				.then(()=> this.kinde.login(options));
 		},
 
 
 		/**
 		* Try and register a new user
 		*
+		* @param {Object} [options] Additional options to mutate behaviour - see https://docs.kinde.com/developer-tools/sdks/frontend/javascript-sdk/#register
+		*
 		* @returns {Promise} A promise which resolves when the operation has completed, although since this usually leads to a Kinde screen the original doc is often destroyed
 		*/
-		signup() {
+		signup(options) {
 			return this.promise()
 				.then(()=> this.bypassEmail && Promise.reject('Cannot trigger signup process if using bypassEmail'))
-				.then(()=> this.kinde.register());
+				.then(()=> this.kinde.register(options));
 		},
 
 
