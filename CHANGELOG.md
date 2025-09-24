@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.34.1](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.34.0...v1.34.1) (2025-09-24)
+
+
+### Bug Fixes
+
+* **$kinde:** Added missing options arg to both login()/register() functions ([7ac416c](https://github.com/MomsFriendlyDevCo/Vitel/commit/7ac416caec20a3ecaf973478629a96c523f94818))
+
 # [1.34.0](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.33.2...v1.34.0) (2025-09-23)
 
 
