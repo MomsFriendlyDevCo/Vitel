@@ -18,8 +18,10 @@ import timestring from 'timestring';
 * @param {String} [classInvalid] Apply this class to the element if the return value is falsy
 * @param {String|function} [textValid] Either overriding text to display if the element is valid, or a function to call with the server response which returns the mangled output
 * @param {String|function} [textInvalid] As with `textValid` this is either overriding text or a function to mangle a server response
+* @param {String} [textLoading=''] Optional text to display when loading data
 * @param {String} [iconValid] Optional icon to display next to the context when loaded
 * @param {String} [iconInvalid] Optional icon to display next to the `textInvalid` text when an error occurs
+* @param {String} [iconLoading='far fa-spinner fa-spin'] Optional icon to display when loading data
 * @param {Boolean} [ignoreErrors=false] Ignore all thrown errors, if false they will be routed into this.$toast.catch
 * @param {String} [hashMethod='urlField] How to cache the digest result, see the `$http.throttle` function for more info
 * @param {*} [hash] Optional pre-computed hash if using `{hashMethod:'custom'}`
@@ -73,8 +75,10 @@ export default {
 		classInvalid: {type: String},
 		textValid: {type: [String, Function]},
 		textInvalid: {type: [String, Function]},
+		textLoading: {type: String, default: ''},
 		iconValid: {type: String},
 		iconInvalid: {type: String},
+		iconLoading: {type: String, default: 'far fa-spinner fa-spin'},
 		ignoreErrors: {type: Boolean, default: false},
 		hashMethod: {type: String, defualt: 'url+field', validator: v => ['url', 'url+field', 'request', 'custom'].includes(v)},
 		hash: {type: String},
@@ -203,7 +207,8 @@ export default {
 			name="loading"
 			:config="$props"
 		>
-			<i class="fas fa-spinner fa-spin"/>
+			<i :class="iconLoading"/>
+			{{textLoading}}
 		</slot>
 		<slot
 			v-else
