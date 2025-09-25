@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.34.2](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.34.1...v1.34.2) (2025-09-25)
+
+
+### Bug Fixes
+
+* **<digest>:** Force <digest>.refresh() to wait for $http / $auth to possibly inject headers ([9c4b4b6](https://github.com/MomsFriendlyDevCo/Vitel/commit/9c4b4b6ad380dbfbf8ad578ccd448440ac3ca893))
+* **$authKinde:** Better race condition trapping when using $props.appendAuthenticationHeader as a callback but $auth+$http hasnt finished injecting headers yet ([319123d](https://github.com/MomsFriendlyDevCo/Vitel/commit/319123d228fac5cddc5c743f6a2a27868c824a69))
+* **$http:** Use mutatable $http.request() handler within $http.throttle() ([b0d22eb](https://github.com/MomsFriendlyDevCo/Vitel/commit/b0d22ebe61629c45af65d2dc4be40f9473252547))
+
+
+### Features
+
+* **<digest>:** Can now specify loading icon + text ([bd975b2](https://github.com/MomsFriendlyDevCo/Vitel/commit/bd975b2298e9413dd5bea707a4fc56390b41d254))
+* **$services:** Can now optionally wait for services if they are declared - $services.require("$thing?") ([cb49a89](https://github.com/MomsFriendlyDevCo/Vitel/commit/cb49a89a64a28452c1c5c0fc93858cc592e7da90))
+
 ## [1.34.1](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.34.0...v1.34.1) (2025-09-24)
 
 
