@@ -23,6 +23,8 @@ import Pagination from './pagination.vue';
 * @param {String} [limitDesc="Page"] Placeholder for goto page input
 * @param {Function} [mutateRequest] Optional async function to call as `(AxiosRequest)` to mutate the computed Axios Request before sending
 *
+* @param {Boolean} [selectable=false] Whether items in the table display should be selectable (i.e. a left aligned checkbox display)
+*
 * @param {Boolean|Function} [showPagination=true] Show the pagination buttons in footer
 * @param {Boolean|Function} [showPaginationDropdown=false] Show the limit options dropdown
 * @param {Boolean|Function} [showPaginationGoto=false] Show number input for going directly to a page
@@ -55,6 +57,8 @@ import Pagination from './pagination.vue';
 *
 * @param {Boolean} [services=true] Automatically try to locate + use $loader + $toast.catch for error reporting
 *
+* @emits selected Emitted as `(Array)` whenever the selected list changes
+*
 * @slot olverlay-loading Slot template to display if over the top of existing data when refreshing
 * @slot state-init Slot template to display (briefly) when the table is bootstrapping
 * @slot state-loading Slot template to display if table data is being loaded
@@ -78,6 +82,7 @@ import Pagination from './pagination.vue';
 */
 export default {
 	name: 'vTable',
+	emits: ['selected'],
 	components: {
 		Pagination,
 	},
@@ -124,6 +129,8 @@ export default {
 			verbs: {cellClass: 'col-verbs text-right'},
 		}}}, /* }}} */
 
+		selectable: {type: Boolean, default: false},
+
 		showPagination: {type: Boolean, default: true},
 		showPaginationDropdown: {type: Boolean, default: false},
 		showPaginationGoto: {type: Boolean, default: false},
@@ -145,11 +152,21 @@ export default {
 
 		services: {type: Boolean, default: true},
 	},
+	computed: {
+		selectionType() {
+			let selected = this.rows.filter(r => r.selected).length;
+			return (
+				selected >= this.rows.length ? 'all'
+				: selected > 0 ? 'some'
+				: 'none'
+			);
+		},
+	},
 	methods: {
 		// Utility functions  - debug() {{{
 		debug(...args) { // eslint-disable-line no-unused-vars
 			// NOTE: Uncomment this next line to see component chatter
-			console.info('v-table', ...args);
+			// console.info('v-table', ...args);
 		},
 		// }}}
 
@@ -359,6 +376,45 @@ export default {
 		filterNumber(value, options) {
 			return this.filter('number', value, options);
 		},
+
+
+		/**
+		* Set or toggle the state of a line-item
+		*
+		* @param {Object} row The row to change the state of
+		* @param {'toggle'|Boolean} state The new state to set or 'toggle' to invert
+		* @emits selected
+		*/
+		setSelected(row, state = 'toggle') {
+			row.selected = state == 'toggle' ? !row.selected : state;
+			this.$emit('selected', this.rows.filter(r => r.selected));
+		},
+
+
+		/**
+		* Utility function to apply various selection profiles
+		*
+		* @param {'all'} type The type of selection to apply
+		*
+		* @emits selected
+		*/
+		setSelection(type = 'all') {
+			switch (type) {
+				case 'all':
+					this.rows.forEach(row => row.selected = true);
+					break;
+				case 'none':
+					this.rows.forEach(row => row.selected = false);
+					break;
+				case 'invert':
+					this.rows.forEach(row => row.selected = ! row.selected);
+					break;
+				default:
+					throw new Error(`Unknown setSelection() method "${type}"`);
+			}
+
+			this.$emit('selected', this.rows.filter(r => r.selected));
+		},
 	},
 	created() {
 		this.endpointSort = this.sort || this.rowKey; // Set intial sort state
@@ -414,6 +470,25 @@ export default {
 			<table v-if="state == 'ready' || (state == 'loading' && rows && rows.length > 0)" :class="tableClass">
 				<thead>
 					<tr>
+						<th v-if="selectable" class="col-selectable">
+							<div class="dropdown">
+								<a class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+									<i
+										:class="
+											selectionType == 'all' ? 'far fa-square-check'
+											: selectionType == 'some' ? 'far fa-square-minus'
+											: 'far fa-square'
+										"
+									/>
+								</a>
+								<div class="dropdown-menu">
+									<a @click="setSelection('all')" class="dropdown-item">Select All</a>
+									<a @click="setSelection('invert')" class="dropdown-item">Invert selection</a>
+									<hr classs="dropdown-divider"/>
+									<a @click="setSelection('none')" class="dropdown-item">Clear selection</a>
+								</div>
+							</div>
+						</th>
 						<th v-for="col in columns" :key="col.id" :class="col.cellClass || col.type && columnTypes[col.type].cellClass">
 							<a @click="setSort(col.id, 'toggle')" :class="!col.sortable && 'no-click'">
 								{{col.title}}
@@ -427,6 +502,16 @@ export default {
 				</thead>
 				<tbody>
 					<tr v-for="row in rows" :key="row[rowKey]">
+						<td v-if="selectable" class="col-selectable" @click="setSelected(row, 'toggle')">
+							<div class="form-check">
+								<input
+									type="checkbox"
+									class="form-check-input"
+									:checked="row.selected && 'checked'"
+									@change.stop="setSelected(row, $event.target.checked)"
+								/>
+							</div>
+						</td>
 						<td v-for="col in columns" :key="col.id" :class="col.cellClass || col.type && columnTypes[col.type].cellClass">
 							<a v-href="cellHref ? cellHref(row) : false" :class="!cellHref && 'no-click'">
 								<slot :name="col.slot || camelCase(col.id)" :row="row">
@@ -436,8 +521,7 @@ export default {
 						</td>
 					</tr>
 				</tbody>
-				<tfoot>
-				</tfoot>
+				<tfoot/>
 			</table>
 			<slot v-else-if="state == 'empty'" name="state-empty">
 				<div class="v-table-state-empty alert alert-warning">
@@ -538,6 +622,10 @@ export default {
 </template>
 
 <style lang="scss">
+:root {
+	--v-table-selection-icon-size: 20px;
+}
+
 .v-table {
 	min-height: 350px;
 
@@ -565,6 +653,34 @@ export default {
 
 		& th.col-status > a {
 			display: none;
+		}
+
+	}
+	/* }}} */
+
+	/* Column classes {{{ */
+	& th.col-selectable .dropdown i {
+		font-size: var(--v-table-selection-icon-size);
+	}
+
+	& th.col-selectable, & td.col-selectable {
+		cursor: pointer;
+		width: 70px;
+
+		& .form-check {
+			text-align: center;
+			padding: 0;
+			float: none;
+
+			& input[type=checkbox], & label {
+				float: none;
+				margin-left: 0;
+			}
+
+			& input[type=checkbox] {
+				width: var(--v-table-selection-icon-size);
+				height: var(--v-table-selection-icon-size);
+			}
 		}
 	}
 	/* }}} */
