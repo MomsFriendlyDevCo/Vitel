@@ -1,5 +1,13 @@
 # Changelog
 
+# [1.35.0](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.34.2...v1.35.0) (2025-10-03)
+
+
+### Features
+
+* $filters.size() ([b3da85f](https://github.com/MomsFriendlyDevCo/Vitel/commit/b3da85f070a935a95bb36d5d26816c1e94efda83))
+* **v-table:** Added <v-table :selectable/> functionality ([f12c25c](https://github.com/MomsFriendlyDevCo/Vitel/commit/f12c25c791c7b47ca04f17f95761ff16ed0c84f9))
+
 ## [1.34.2](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.34.1...v1.34.2) (2025-09-25)
 
 
