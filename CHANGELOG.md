@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.35.1](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.35.0...v1.35.1) (2025-10-09)
+
+
+### Bug Fixes
+
+* **$ripple:** Dont try and attach a ripple effect to orphaned or non-DOM elements ([e0cb834](https://github.com/MomsFriendlyDevCo/Vitel/commit/e0cb83473898007708edc783c7a4d66948cd3104))
+
 # [1.35.0](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.34.2...v1.35.0) (2025-10-03)
 
 
