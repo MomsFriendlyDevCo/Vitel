@@ -32,6 +32,7 @@ export default {
 		*/
 		ripple(e) {
 			let target = e.target;
+			if (!target.parentElement) return; // Target has no parent - likely has been removed from the DOM and not cleared up yet - do nothing
 
 			// Create a ripple-box - a container within the same elements parent
 			let rippleBox = document.createElement('div');
