@@ -17,6 +17,7 @@
 *
 * @param {Boolean} [modifier.window] Sets `{target: '_blank'}` - i.e. open in a new tab / window
 * @param {Boolean} [modifier.nostop] Sets `{stop: false}` - i.e. prevent `e.stopPropagation()` by default
+* @param {Boolean} [modifier.noprevent] Sets `{prevent: false}` - i.e. prevent `e.preventDefaults()` by default
 * @param {Boolean} [modifier.replace] Sets `{method: 'replace'}` to replace the current history item rather than appending to it
 *
 *
@@ -61,6 +62,7 @@ let bindVHref = function vHrefBind(el, binding) {
 	// Process modifiers into settings
 	if (binding.modifiers.window) settings.target = '_blank';
 	if (binding.modifiers.nostop) settings.stop = false;
+	if (binding.modifiers.noprevent) settings.prevent = false;
 	if (binding.modifiers.replace) settings.method = 'replace';
 
 	if (!settings.path) return; // Nothing to bind to - URL will presumably be provided in update cycle
