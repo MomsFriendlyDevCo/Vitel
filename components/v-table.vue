@@ -15,6 +15,7 @@ import Pagination from './pagination.vue';
 *
 * @param {String|Object} url ReST endpoint to connect to, if this is a plain object its assumed to be an Axios compatible request (including a 'url' key) to merge with computed properties such as filters, sorting, pagination
 * @param {String} [baseUrl] Base URL to assume URLs source from, defaults to trying the `$http` service base config OR `app.service('$http').config` OR the `window.location.origin`
+* @param {Boolean|Function} [debug=false] Enable debugging. If boolean true this simply uses `console.log`, otherwise this can be redirected to a custom debug handling function
 * @param {Function} [dataDecorate] Optional function to run the retrieved data through before use, useful to add meta fields
 * @param {String} [sort] Field to sort by, if omitted the rowKey is used instead
 * @param {Boolean} [sortAsc=true] When sorting, sort ascending (A-Z)
@@ -110,6 +111,7 @@ export default {
 				|| window.location.origin
 			);
 		}},
+		debug: {type: [Boolean, Function], default: false},
 		dataDecorate: {type: Function},
 		sort: {type: String},
 		sortAsc: {type: Boolean, default: true},
@@ -163,10 +165,17 @@ export default {
 		},
 	},
 	methods: {
-		// Utility functions  - debug() {{{
-		debug(...args) { // eslint-disable-line no-unused-vars
-			// NOTE: Uncomment this next line to see component chatter
-			// console.info('v-table', ...args);
+		// Utility functions  - logDebug() - Handle debug output {{{
+		logDebug(...args) { // eslint-disable-line no-unused-vars
+			if (!this.debug) {
+				// Pass
+			} else if (this.debug === true) {
+				console.info('v-table', ...args);
+			} else if (typeof this.debug == 'function') {
+				this.debug.call(this, ...args);
+			} else {
+				throw new Error('Unsupported debug output method');
+			}
 		},
 		// }}}
 
@@ -191,7 +200,7 @@ export default {
 
 			// Promise already in progress and we're not forced? Return that
 			if (!settings.force && this.refreshPromise) {
-				this.debug('refresh(skipped)', 'skipping request while another refresh is in progress');
+				this.logDebug('refresh(skipped)', 'skipping request while another refresh is in progress');
 				return this.refreshPromise;
 			}
 
@@ -199,9 +208,9 @@ export default {
 				// Sanity checks {{{
 				.then(()=> {
 					if (!this.$http) throw new Error('vm.$http service not available');
-					this.debug('refresh', this.reloadCount, this.url, this.endpointSearch);
+					this.logDebug('refresh', this.reloadCount, this.url, this.endpointSearch);
 					if (this.state == 'loading') return; // Already refreshing
-					if (!this.url) return this.debug('Skipping refresh due to falsy URL'); // No URL available yet, URL is probably dynamic - do nothing
+					if (!this.url) return this.logDebug('Skipping refresh due to falsy URL'); // No URL available yet, URL is probably dynamic - do nothing
 					if (isPlainObject(this.url) && !this.url.url) throw new Error('No "url" key provided in v-table object');
 
 					// Omit empty keys from url object
@@ -236,7 +245,7 @@ export default {
 					return req;
 				})
 				.then(req => {
-					this.debug('AxiosRequest', req);
+					this.logDebug('AxiosRequest', req);
 
 					// Calculate endpoint URLs {{{
 					var endpointQuery = new URL(req.url, this.baseUrl);
@@ -254,7 +263,7 @@ export default {
 							.then(({data}) => this.dataDecorate ? this.dataDecorate(data) : data)
 							.then(data => this.rows = data)
 							.catch(e => {
-								this.debug('ERR during fetch', endpointQuery.toString(), '-', e);
+								this.logDebug('ERR during fetch', endpointQuery.toString(), '-', e);
 								throw e;
 							}),
 
@@ -271,17 +280,17 @@ export default {
 								this.pages = Math.ceil(this.rowCount / this.limit);
 							})
 							.catch(e => {
-								this.debug('ERR during count', endpointCount.toString(), '-', e);
+								this.logDebug('ERR during count', endpointCount.toString(), '-', e);
 								throw e;
 							}),
 					]);
 				})
-				.then(()=> this.debug('Row data', {rows: this.rows, rowCount: this.rowCount}))
+				.then(()=> this.logDebug('Row data', {rows: this.rows, rowCount: this.rowCount}))
 				.then(()=> this.state = this.rows.length > 0 ? 'ready' : 'empty')
 				.catch(e => {
 					this.state = 'error';
 					this.error = e;
-					this.debug('Error', e);
+					this.logDebug('Error', e);
 					if (this.services && this.$toast?.catch) {
 						this.$toast.catch(e);
 					} else {
@@ -312,7 +321,7 @@ export default {
 				this.endpointSort = columnId;
 				this.endpointSortAsc = true;
 			}
-			this.debug('setSort', columnId, behaviour, this.endpointSort, this.endpointSortAsc);
+			this.logDebug('setSort', columnId, behaviour, this.endpointSort, this.endpointSortAsc);
 
 			return this.refresh();
 		},
@@ -423,7 +432,7 @@ export default {
 	watch: {
 		url() {
 			if (this.autoResetPagination) {
-				this.debug('autoResetPagination');
+				this.logDebug('autoResetPagination');
 				this.endpointPage = 1;
 			}
 			this.refresh();
