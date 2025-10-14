@@ -1,5 +1,17 @@
 # Changelog
 
+# [1.36.0](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.35.1...v1.36.0) (2025-10-14)
+
+
+### Bug Fixes
+
+* **v-href:** Handle query parameters of literal v-href strings by parsing them into the correct redirection object ([ed36596](https://github.com/MomsFriendlyDevCo/Vitel/commit/ed36596c3d09c25313e98b9768422ec93c0634a9))
+
+
+### Features
+
+* **v-href:** Add .noprevent modifier to pair with .nostop ([6b4e93d](https://github.com/MomsFriendlyDevCo/Vitel/commit/6b4e93dd2b0c809a7e9520f7e9d709b72c273d7c))
+
 ## [1.35.1](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.35.0...v1.35.1) (2025-10-09)
 
 
