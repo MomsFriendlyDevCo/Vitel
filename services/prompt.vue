@@ -61,6 +61,7 @@ export default {
 		* @param {Boolean} [options.backdrop=true] Show a faded backdrop behind the model
 		*
 		* @param {String} [options.dialogClose='reject'] Operation to perform when the dialog is dismissed via close or keyboard interaction. ENUM: 'resolve', 'reject'
+		* @param {*} [options.dialogClosePayload='reject'] Payload provided to a `resolve` / `reject` operation dictated by `dialogClose`
 		*
 		* @param {Array<Object|String>} [options.buttons] Button mappings to display in modal footer (or omit to disable). Entries can also be shorthand strings such as 'ok', 'cancel'
 		* @param {String} [options.buttons.title] The text to display on the button
@@ -97,6 +98,7 @@ export default {
 				keyboard: true,
 				backdrop: true,
 				dialogClose: 'reject',
+				dialogClosePayload: 'CANCEL',
 				buttons: null,
 				stack: false,
 				modelEl: null, // Eventual DOM element for the model
