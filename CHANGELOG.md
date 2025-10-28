@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.36.1](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.36.0...v1.36.1) (2025-10-28)
+
+
+### Features
+
+* **$prompt:** Closing a prompt dialog now throws a configurable payload (defaults to "CANCEL") ([efaea83](https://github.com/MomsFriendlyDevCo/Vitel/commit/efaea8350af2915a5a44d24cd7fb10bf07264f0e))
+
 # [1.36.0](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.35.1...v1.36.0) (2025-10-14)
 
 
