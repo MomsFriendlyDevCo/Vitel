@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.36.2](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.36.1...v1.36.2) (2025-11-04)
+
+
+### Bug Fixes
+
+* **v-href:** Screwed up logic to determine the human-friendly `<a href>` string binding to use ([f3e5a90](https://github.com/MomsFriendlyDevCo/Vitel/commit/f3e5a904c236939b177bedee8b34773e68841644))
+
 ## [1.36.1](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.36.0...v1.36.1) (2025-10-28)
 
 
