@@ -72,7 +72,7 @@ let bindVHref = function vHrefBind(el, binding) {
 			let url = new URL(settings.path, window.location.href);
 
 			return {
-				_href: settings.path, // Meta key used to populate <a href> prop
+				_href: settings.path, // Meta key used to populate basic `<a href>` string prop
 				path: settings.path.split('?', 2)[0], // Take only path up to query component
 				query: Object.fromEntries( // Extract URL entries into a lookup object
 					url.searchParams.entries()
@@ -82,6 +82,8 @@ let bindVHref = function vHrefBind(el, binding) {
 		: typeof settings.path == 'string' ? {path: settings.path} // Likely a simple path
 		: settings.path;
 
+	console.log('Destination of', settings.path, '->', settings.destination);
+
 	if (el.classList.contains(settings.class)) { // Already bound? Assume link update lifecycle
 		el.removeEventListener('click', clickListener);
 	} else { // Bind for first time
@@ -89,7 +91,8 @@ let bindVHref = function vHrefBind(el, binding) {
 	}
 
 	el.addEventListener('click', clickListener.bind(settings));
-	if (typeof settings.destination._href && el.tagName == 'A') { // Complex URL has string representation
+	if (settings.destination._href && typeof settings.destination._href == 'string' && el.tagName == 'A') { // Complex URL has string representation
+		console.log('ASSIGN', el, 'href=', settings.destination._href);
 		el.href = settings.destination._href;
 	} else if (typeof settings.destination.path == 'string' && el.tagName == 'A') { // Add href to link also to handle middle clicking
 		el.href = settings.destination.path;
