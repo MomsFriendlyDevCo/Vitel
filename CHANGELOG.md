@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.36.3](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.36.2...v1.36.3) (2025-11-04)
+
+
+### Bug Fixes
+
+* Debugging artefacts ([dc07db4](https://github.com/MomsFriendlyDevCo/Vitel/commit/dc07db4d75b48aa566fb0a813cd4e46d4220ee91))
+
 ## [1.36.2](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.36.1...v1.36.2) (2025-11-04)
 
 
