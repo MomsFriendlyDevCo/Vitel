@@ -82,8 +82,6 @@ let bindVHref = function vHrefBind(el, binding) {
 		: typeof settings.path == 'string' ? {path: settings.path} // Likely a simple path
 		: settings.path;
 
-	console.log('Destination of', settings.path, '->', settings.destination);
-
 	if (el.classList.contains(settings.class)) { // Already bound? Assume link update lifecycle
 		el.removeEventListener('click', clickListener);
 	} else { // Bind for first time
@@ -92,7 +90,6 @@ let bindVHref = function vHrefBind(el, binding) {
 
 	el.addEventListener('click', clickListener.bind(settings));
 	if (settings.destination._href && typeof settings.destination._href == 'string' && el.tagName == 'A') { // Complex URL has string representation
-		console.log('ASSIGN', el, 'href=', settings.destination._href);
 		el.href = settings.destination._href;
 	} else if (typeof settings.destination.path == 'string' && el.tagName == 'A') { // Add href to link also to handle middle clicking
 		el.href = settings.destination.path;
