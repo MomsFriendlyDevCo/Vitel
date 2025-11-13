@@ -301,8 +301,7 @@ export default {
 					if (!addHeader) { // Don't want token injecting anyway
 						return;
 					} else if (addHeader && !token) { // Want header but no token ready yet
-						console.warn('$auth - Want token injection for request', config, 'but no token to inject!');
-						debugger;
+						console.warn('$authKinde - Want token injection for request', config, 'but no token to inject!');
 					} else { // Want header + token ready
 						config.headers['Authorization'] = `Bearer ${token}`;
 					}
