@@ -1,5 +1,17 @@
 # Changelog
 
+# [1.37.0](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.36.3...v1.37.0) (2025-11-20)
+
+
+### Bug Fixes
+
+* **$authKinde:** Dont trap user with debugging token in early stages of $authKinde if injection fails ([5de5730](https://github.com/MomsFriendlyDevCo/Vitel/commit/5de5730305f8e9e6e326339ed3093cec71ba825a))
+
+
+### Features
+
+* **$http:** Can now rewrite Error payloads for nicer catch reporting ([ba0827f](https://github.com/MomsFriendlyDevCo/Vitel/commit/ba0827ff5f511017dcf5ca5f0add5d06a90804b4))
+
 ## [1.36.3](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.36.2...v1.36.3) (2025-11-04)
 
 
