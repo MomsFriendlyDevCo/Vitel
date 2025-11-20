@@ -49,7 +49,28 @@ export default {
 		throttles: {},
 	}},
 	props: {
+
+		/**
+		* Default AxiosRequest object to assume in all cases
+		* @type {Object}
+		*/
 		config: {type: Object},
+
+
+		/**
+		* Rewrite thrown Error objects when the response has a `text` component
+		* This condition should apply to most `res.sendStatus(400)` / `res.send('Nope').status(400)` type responses
+		* @type {Boolean}
+		*/
+		rewriteTextErrors: {type: Boolean, default: true},
+
+
+		/**
+		* Rewrite thrown Error objects when the response has `data.error` string value
+		* This condition should apply to most `res.send({error: 'Nope}).status(400)` type responses
+		* @type {Boolean}
+		*/
+		rewritePayloadErrors: {type: Boolean, default: true},
 	},
 	methods: {
 		delete(...args) { return this.axios.delete(...args) },
@@ -248,6 +269,10 @@ export default {
 			error => {
 				if (!error.response || !error.response.status) {
 					return Promise.reject(error);
+				} else if (this.rewriteTextErrors && error.config?.method && error.config?.url && error.response?.status && error.request?.responseText) { // Do we have enough of an error object to construct a nicer response?
+					return Promise.reject(`${error.config.method.toUpperCase()} ${error.config.url} returned ${error.response.status} - ${error.request.responseText}`);
+				} else if (this.rewritePayloadErrors && error.config?.method && error.config?.url && error.response?.status && error.response?.data?.error) {
+					return Promise.reject(`${error.config.method.toUpperCase()} ${error.config.url} returned ${error.response.status} payload error - ${error.response.data.error}`);
 				} else if (error.response && error.response.data) {
 					return Promise.reject(error.response.data);
 				} else {
