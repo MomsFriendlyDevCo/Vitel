@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.37.1](/compare/v1.37.0...v1.37.1) (2025-12-16)
+
+
+### Features
+
+* **$http:** $http.preemptive() 1772862
+
 # [1.37.0](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.36.3...v1.37.0) (2025-11-20)
 
 
