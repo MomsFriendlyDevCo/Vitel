@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.38.0](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.37.1...v1.38.0) (2025-12-27)
+
+
+### Features
+
+* $clipboard service (pretty minimal so far though) ([65b01c7](https://github.com/MomsFriendlyDevCo/Vitel/commit/65b01c7ccba14ced21f87281a9ffde6767dd35b3))
+
 ## [1.37.1](/compare/v1.37.0...v1.37.1) (2025-12-16)
 
 
