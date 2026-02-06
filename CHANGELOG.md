@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.38.1](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.38.0...v1.38.1) (2026-02-05)
+
+
+### Bug Fixes
+
+* Regex now handles period in filename before extension ([60d7fdc](https://github.com/MomsFriendlyDevCo/Vitel/commit/60d7fdc88d5d7042f4c377e7308f5a195f3fdb25))
+
 # [1.38.0](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.37.1...v1.38.0) (2025-12-27)
 
 
