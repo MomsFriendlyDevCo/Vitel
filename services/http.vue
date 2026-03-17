@@ -303,8 +303,7 @@ export default {
 					expires: '7d',
 					checkExpiry: true,
 					debug(...msg) {
-						// vm.debug(`[$http.preemptive::${cacheKey}]`, ...msg);
-						console.log(`[$http.preemptive::${cacheKey}]`, ...msg);
+						vm.debug(`[$http.preemptive::${cacheKey}]`, ...msg);
 					},
 					hasher(settings) {
 						return (
