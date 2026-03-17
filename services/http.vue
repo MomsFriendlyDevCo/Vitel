@@ -309,7 +309,7 @@ export default {
 						return (
 							settings.url
 							+ '?'
-							+ hasher({
+							+ hash({
 								...(settings.method && {method: settings.method}),
 								...(settings.params && {params: settings.params}),
 								...(settings.headers && {headers: settings.headers}),
