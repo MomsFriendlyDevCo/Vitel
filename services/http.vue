@@ -1,6 +1,6 @@
 <script>
 import axios from 'axios';
-import {hash} from '@momsfriendlydevco/sort-keys';
+import {hash as hashObject} from '@momsfriendlydevco/sort-keys';
 import {isEqual, merge, omit} from 'lodash-es';
 import timestring from 'timestring';
 
@@ -105,11 +105,11 @@ export default {
 
 			let hashMethod = config.hashMethod || 'url';
 			let hash =
-				hashMethod == 'url' ? hash(config.url)
-				: hashMethod == 'query' ? hash({url: config.url, params: config.params, data: config.data})
-				: hashMethod == 'request' ? hash(config)
+				hashMethod == 'url' ? hashObject(config.url)
+				: hashMethod == 'query' ? hashObject({url: config.url, params: config.params, data: config.data})
+				: hashMethod == 'request' ? hashObject(config)
 				: hashMethod == 'custom' && typeof config.hash == 'string' && /^\w+$/.test(config.hash) ? config.hash // Given a hash and it looks valid
-				: hashMethod == 'custom' ? hash(config.hash) // Don't trust it, run via hash() instead
+				: hashMethod == 'custom' ? hashObject(config.hash) // Don't trust it, run via hashObject() instead
 				: (()=> { throw new Error(`Invalid $http.throttle hashMethod "${hashMethod}"`) })()
 
 			let reqPrefix = `${config.method || 'GET'} ${config.url} ~ HASH[${hash}]`;
@@ -174,7 +174,7 @@ export default {
 						return (
 							settings.url
 							+ '?'
-							+ hash({
+							+ hashObject({
 								...(settings.method && {method: settings.method}),
 								...(settings.params && {params: settings.params}),
 								...(settings.headers && {headers: settings.headers}),
@@ -309,7 +309,7 @@ export default {
 						return (
 							settings.url
 							+ '?'
-							+ hash({
+							+ hashObject({
 								...(settings.method && {method: settings.method}),
 								...(settings.params && {params: settings.params}),
 								...(settings.headers && {headers: settings.headers}),
