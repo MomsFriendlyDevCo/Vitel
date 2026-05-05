@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.38.7](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.38.6...v1.38.7) (2026-05-05)
+
+
+### Bug Fixes
+
+* **$http:** Await hasher response rather than assuming its synchronous ([c977ddf](https://github.com/MomsFriendlyDevCo/Vitel/commit/c977ddfb656e73fb0b13048dbbdd0ce980b558c5))
+* **$http:** Mangled Axios middleware response when debugging is enabled ([2039aaa](https://github.com/MomsFriendlyDevCo/Vitel/commit/2039aaa91742f5d62e3300a9353ec932b97d0dd6))
+* **$http:** Removed mooted JQuery encoding Axios middleware ([9ed2dd6](https://github.com/MomsFriendlyDevCo/Vitel/commit/9ed2dd68481aed1ee7bbaad5323677c70bebf565))
+* Cleaned up argument responses for .preemptive() callbacks + added {source:local|remote} arg to onState() ([bb81db9](https://github.com/MomsFriendlyDevCo/Vitel/commit/bb81db91347601f5f9c205bc715bff79db62f211))
+* Patch @mfdc/sort-keys to latest to fix issue where hashed B64 strings would contain annoying slashes ([c652004](https://github.com/MomsFriendlyDevCo/Vitel/commit/c6520046aa9af696b471f22ede250bd33c26ec4e))
+
 ## [1.38.1](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.38.0...v1.38.1) (2026-02-05)
 
 
