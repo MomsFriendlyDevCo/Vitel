@@ -467,13 +467,6 @@ export default {
 			merge(this.axios.defaults, this.config);
 		}
 
-		// Make Axios encode using jQueries parameter serializer to keep Monoxide happy
-		/* FIXME: Not sure if this is used these days - MC 2023-09-19
-		this.axios.defaults.paramsSerializer = params =>
-			$.param(params)
-				.replace(/\bq=(.+)\b/g, p => p.replace(/%3A/g, ':')) // Allow `q=` to contain ':' tags
-		*/
-
 		// Add request debugging if enabled
 		this.debug(()=> {
 			this.axios.interceptors.request.use(
