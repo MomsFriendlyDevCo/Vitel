@@ -100,16 +100,16 @@ export default {
 		*
 		* @returns {Promise<AxiosResponse>} Either the regular resolved AxiosResponse or the existing value by hash
 		*/
-		throttle(config) {
+		async throttle(config) {
 			if (typeof config != 'object') throw new Error(`$http.throttle only accepts an AxiosRequest object "${typeof config}" given`);
 
 			let hashMethod = config.hashMethod || 'url';
 			let hash =
-				hashMethod == 'url' ? hashObject(config.url)
-				: hashMethod == 'query' ? hashObject({url: config.url, params: config.params, data: config.data})
-				: hashMethod == 'request' ? hashObject(config)
+				hashMethod == 'url' ? await hashObject(config.url)
+				: hashMethod == 'query' ? await hashObject({url: config.url, params: config.params, data: config.data})
+				: hashMethod == 'request' ? await hashObject(config)
 				: hashMethod == 'custom' && typeof config.hash == 'string' && /^\w+$/.test(config.hash) ? config.hash // Given a hash and it looks valid
-				: hashMethod == 'custom' ? hashObject(config.hash) // Don't trust it, run via hashObject() instead
+				: hashMethod == 'custom' ? await hashObject(config.hash) // Don't trust it, run via hashObject() instead
 				: (()=> { throw new Error(`Invalid $http.throttle hashMethod "${hashMethod}"`) })()
 
 			let reqPrefix = `${config.method || 'GET'} ${config.url} ~ HASH[${hash}]`;
@@ -170,11 +170,11 @@ export default {
 					debug(...msg) {
 						// console.info('[$http.lazyGet]', ...msg);
 					},
-					hasher(settings) {
+					async hasher(settings) {
 						return (
 							settings.url
 							+ '?'
-							+ hashObject({
+							+ await hashObject({
 								...(settings.method && {method: settings.method}),
 								...(settings.params && {params: settings.params}),
 								...(settings.headers && {headers: settings.headers}),
@@ -305,17 +305,17 @@ export default {
 					debug(...msg) {
 						vm.debug(`[$http.preemptive::${cacheKey}]`, ...msg);
 					},
-					hasher(settings) {
+					async hasher(settings) {
 						return (
 							settings.url
 							+ '?'
-							+ hashObject({
+							+ await hashObject({
 								...(settings.method && {method: settings.method}),
 								...(settings.params && {params: settings.params}),
 								...(settings.headers && {headers: settings.headers}),
 								...(settings.data && {query: settings.data}),
 							})
-						)
+						);
 					},
 					equalityChecker(cached, response) {
 						return isEqual(
