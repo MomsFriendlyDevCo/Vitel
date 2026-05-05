@@ -249,14 +249,14 @@ export default {
 		* @param {String} [url] The URL to fetch
 		* @param {AxiosRequest|Object} options AxiosRequest config or POJO to transform into one
 		* @param {Boolean} [options.enabled=true] Whether to allow cache usage, if disabled this fuction acts similar to a regular `$http.request()` + `onState(response:Response)`, when disabled responses are still cached
-		* @param {Function} options.onState Async callback function invoked as `(response:Response)` when state is available
+		* @param {Function} options.onState Async callback function invoked as `(response:Response, source:'local'|'remote')` when a (and not necessarily the "right") state is available
 		* @param {String} [options.url] The URL endpoint to access
 		* @param {'first'|'last'} [options.resolveOn='first'] How to resolve the wrapping promise. ENUM: 'first' (resolve on local state if its available), 'last' (resolve only when the remote state has also been supplied)
 		* @param {Function} [options.onCacheHit] Async callback function invoked as `(cacheResponse:Response)` when a cache value is present, called before `onState()`
 		* @param {Function} [options.onCacheSkip] Async callback function invoked as `(cacheResponse:Response, httpResponse:Response)` when a cache value has arrived but the HTTP response has already populated anyway, called after `onState()`
 		* @param {Function} [options.onHttpHit] Async callback function invoked as `(httpResponse:Response, cacheResponse?:Response)` when a HTTP value has arrived
 		* @param {Function} [options.onHttpSkip] Async callback function invoked as `(httpResponse:Response, cacheResponse?:Response)` when a HTTP value has arrived but it matches the cache value so `onState()` will be skipped
-		* @param {Function} [options.onDone] Async callback function invoked as `(httpResponse:Response, cacheResponse?:Response)` when both local and remote states have both been refreshed
+		* @param {Function} [options.onDone] Async callback function invoked as `({local?:Response, remote?:Response})` when both local and remote states have both been refreshed, this is the same as the promise resolution
 		* @param {String} [options.responseType='json'] The output data type expected
 		* @param {Object} [options.cache] Caching options
 		* @param {String} [options.cache.cacheName='FetchCache'] The name of the cache to read/write cached data from/to
@@ -283,8 +283,8 @@ export default {
 			let settings = { // {{{
 				/* eslint-disable no-unused-vars */
 				enabled: true,
-				onState(res) {
-					throw new Error('No function attached to $http.preemptive({onState:Function})');
+				onState(res, source) {
+					throw new Error('No function attached to $http.preemptive({onState:Function, source:String})');
 				},
 				resolveOn: 'first',
 				onCacheHit(cacheRes) {},
@@ -385,10 +385,10 @@ export default {
 									settings.cache.debug('Got cache state', res);
 									return Promise.resolve()
 										.then(()=> settings.onCacheHit(res))
-										.then(()=> settings.onState(res))
+										.then(()=> settings.onState(res, 'local'))
 										.then(()=> settings.resolveOn == 'first' && preemptivePromise.resolve({
-											local: emittedHttpState,
-											remote: emittedCacheState,
+											local: emittedCacheState,
+											remote: emittedHttpState,
 										}))
 								}
 							}
@@ -413,7 +413,7 @@ export default {
 										Expires:
 											settings.cache.expires instanceof Date ? settings.cache.expires.toUTCString()
 											: typeof settings.cache.expires == 'string' ? new Date(Date.now() + timestring(settings.cache.expires, 'ms')).toUTCString()
-											: isFinite(settings.cache.expires) ? new Date(Date.now() + settings.cache.expires).toUTCString()
+											: isFinite(settings.cache.expires) ? new Date(Date.now() + settings.cache.expires).toUTCString() // eslint-disable-line unicorn/prefer-number-properties
 											: (()=> { throw new Error(`Unknown expires type "${settings.cache.expires}" must be a string, Date or finite number`) })()
 									},
 								},
@@ -429,13 +429,13 @@ export default {
 											return Promise.resolve()
 												.then(()=> settings.onHttpSkip(res, emittedCacheState))
 										} else {
-											settings.cache.debug('HTTP state MIS-matches cached state', emittedHttpState);
+											settings.cache.debug('HTTP state MISmatches cached state', emittedHttpState);
 											return Promise.resolve()
 												.then(()=> settings.onHttpHit(emittedHttpState, emittedCacheState))
-												.then(()=> settings.onState(emittedHttpState))
+												.then(()=> settings.onState(emittedHttpState, 'remote'))
 												.then(()=> settings.resolveOn == 'first' && preemptivePromise.resolve({
-													local: emittedHttpState,
-													remote: emittedCacheState,
+													local: emittedCacheState,
+													remote: emittedHttpState,
 												}))
 										}
 									}),
@@ -443,8 +443,14 @@ export default {
 						])),
 					// }}}
 				]))
-				.then(()=> settings.onDone(emittedHttpState, emittedCacheState))
-				.then(()=> settings.resolveOn == 'last' && preemptivePromise.resolve(emittedHttpState, emittedCacheState))
+				.then(()=> settings.onDone({
+					local: emittedCacheState,
+					remote: emittedHttpState,
+				}))
+				.then(()=> settings.resolveOn == 'last' && preemptivePromise.resolve({
+					local: emittedCacheState,
+					remote: emittedHttpState,
+				}))
 
 			return preemptivePromise.promise;
 		}
@@ -453,6 +459,7 @@ export default {
 
 	/**
 	* Vitel service wrapper in case this component is called as a function (e.g. `vm.$http()`)
+	* @params {...*} [args] Arguments to pass to Axios
 	*/
 	call(...args) {
 		return this.axios.request(...args);
