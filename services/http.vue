@@ -472,9 +472,11 @@ export default {
 			this.axios.interceptors.request.use(
 				config => {
 					this.debug('Request', config);
+					return config;
 				},
 				error => {
 					this.debug('Request error', error);
+					return Promise.reject(error);
 				},
 			)
 		});
