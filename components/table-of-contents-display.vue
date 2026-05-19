@@ -37,7 +37,7 @@ export default {
 							: this.sortBy(section, index),
 					...section,
 				}))
-				.sort((a, b) =>
+				.toSorted((a, b) =>
 					a.sortValue > b.sortValue ? 1
 					: a.sortValue < b.sortValue ? -1
 					: 0

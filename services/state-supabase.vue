@@ -89,7 +89,7 @@ export default {
 		* @type {Array<Function>} Function called as `(File)`
 		*/
 		fileTranscoders: [],
-	}},
+	} },
 	props: {
 		/**
 		* Options for throttling writes to the server
@@ -103,7 +103,7 @@ export default {
 			maxWait: 2000,
 			leading: false,
 			trailing: true,
-		}}},
+		} }},
 
 
 		/**
@@ -163,7 +163,7 @@ export default {
 				entity = parts[0];
 				id = parts[1]; // Will be undefined if parts.length < 2
 
-				if (parts.length > 2) {
+				if (parts.length > 2) { // eslint-disable-line unicorn/prefer-ternary
 					operand = parts.slice(2).join('/'); // Join all remaining parts for the operand
 				} else {
 					operand = undefined;
@@ -177,7 +177,7 @@ export default {
 			if (settings.requireOperand && (!operand || operand == 'undefined')) throw new Error(`Could not extract operand from path "${path}"`);
 
 			return {entity, id, operand};
-	},
+		},
 		// }}}
 
 		// Record / Row handling - get(), set(), create() {{{
@@ -239,15 +239,14 @@ export default {
 					.update({
 						data: {
 							...existingData,
-							...tidyValue(data),
 						},
 					})
 					.eq('id', id)
 					.select('id')
 				)
 				.catch(error => {
-						console.error("Error fetching existing data:", error);
-						return Promise.reject(error);
+					console.error("Error fetching existing data:", error);
+					return Promise.reject(error);
 				})
 				.then(payload => payload.error?.message && Promise.reject(payload.error.message))
 		},
@@ -418,12 +417,12 @@ export default {
 			};
 
 			// Ensure options for recursive calls don't accidentally inherit _currentDepth from a manual call
-			let settings = { ...defaultSettings, ...options };
-			if (options._currentDepth === undefined) {
+			let settings = {...defaultSettings, ...options};
+			if (settings._currentDepth === undefined) {
 				settings._currentDepth = 0;
 			}
 
-			let {entity, id: firstPartOfPath, operand: restOfPath } = this.splitPath(path, {requireEntity: true, requireId: true});
+			let {entity, id: firstPartOfPath, operand: restOfPath} = this.splitPath(path, {requireEntity: true, requireId: true});
 
 			// Construct path from segments returned from splitPath
 			let pathWithinBucket = firstPartOfPath || '';
@@ -681,12 +680,12 @@ export default {
 									? pathPrefix // Use the path as-is (e.g., 'data.json')
 									: `${pathPrefix}/${file.name}`; // Append the filename (e.g., 'images/upload.png')
 								return this.supabase.storage
-								.from(entity)
-								.upload(finalUploadPath, file, {
-									upsert: settings.overwrite,
-									cacheControl: settings.cacheControl,
-								})
-								.then(({data: sbFile}) => ({file, meta, sbFile})) // Pass result + meta to next .then block
+									.from(entity)
+									.upload(finalUploadPath, file, {
+										upsert: settings.overwrite,
+										cacheControl: settings.cacheControl,
+									})
+									.then(({data: sbFile}) => ({file, meta, sbFile})) // Pass result + meta to next .then block
 							})
 							.then(({sbFile, file, meta}) => {
 								if (!isEmpty(meta)) { // If we also want to populate meta we need to refetch the uploaded file by its name
@@ -706,10 +705,10 @@ export default {
 										meta: false,
 										limit: 1,
 									})
-									.then(([newFile]) => {
-										return this.replace(settings.metaPath(newFile), meta)
-									})
-									.then(()=> ({sbFile, file}))
+										.then(([newFile]) => {
+											return this.replace(settings.metaPath(newFile), meta)
+										})
+										.then(()=> ({sbFile, file}))
 								} else {
 									return {sbFile, file};
 								}

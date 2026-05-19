@@ -17,7 +17,7 @@ export default {
 		options() { return {
 			locale: this.locale,
 			currency: this.currency,
-		}},
+		} },
 	},
 	methods: {
 		currencyFilter,

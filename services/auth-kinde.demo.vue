@@ -6,7 +6,7 @@ export default {
 			state: this.$kinde.state,
 			isLoggedIn: this.$kinde.isLoggedIn,
 			user: this.$kinde.user,
-		}},
+		} },
 	},
 }
 </script>

@@ -172,10 +172,10 @@ export default {
 		*/
 		checkDateOrThrow(date) {
 			if (date instanceof Date) {
-				if (isNaN(date.getTime())) throw new Error('Input Date object is not valid');
+				if (Number.isNaN(date.getTime())) throw new Error('Input Date object is not valid');
 			} else if (typeof date == 'string') {
 				let dateObject = new Date(date);
-				if (isNaN(dateObject)) throw new Error(`Input date string "${date}" is not valid`);
+				if (Number.isNaN(dateObject)) throw new Error(`Input date string "${date}" is not valid`);
 			} else {
 				throw new Error(`Unknown date type ${date}`);
 			}

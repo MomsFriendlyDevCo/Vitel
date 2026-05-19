@@ -27,7 +27,7 @@ export default {
 		* @type {ResizeObserver}
 		*/
 		resizeObserver: null
-	}},
+	} },
 	props: {
 		/**
 		* Input timeline items to process
@@ -91,7 +91,7 @@ export default {
 					} else if (item.date && item.date instanceof Date) {
 						return item.date;
 					} else {
-					   	throw new Error('Date must be specified or a ISO8901 format for timeline item');
+						throw new Error('Date must be specified or a ISO8901 format for timeline item');
 					}
 				})(),
 				icon: item.icon || this.defaults.icon,

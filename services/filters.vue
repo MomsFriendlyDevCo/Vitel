@@ -13,14 +13,14 @@ export default {
 		* @type {Object<Function>}
 		*/
 		filters: {},
-	}},
+	} },
 	methods: {
 		/**
 		* Pipe values down a chain of filters, returning the eventual output
 		* Pipeline stages can be named functions, function callbacks or an array with a key=>options setup (like Eslint config)
 		*
 		* @param {*} value Initial value to use
-		* @param {String|Array|Function} pipeline... Stages of a pipeline. Each step can be a function to pipe the current value through or a named filter
+		* @param {...String|Array|Function} pipeline Stages of a pipeline. Each step can be a function to pipe the current value through or a named filter
 		* @returns {*} The final output of the pipeline
 		*
 		* @example Pipe a number down a formatting pipeline

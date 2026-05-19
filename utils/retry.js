@@ -25,7 +25,7 @@ export default function retry(cb, options) {
 			.then(()=> cb())
 			.then(result => resolve(result))
 			.catch(()=> {
-				if (++tryCount < settings.tries) {
+				if (++tryCount < settings.tries) { // eslint-disable-line unicorn/prefer-ternary
 					return Promise.resolve()
 						.then(()=> settings.onRetry(tryCount, settings.retries))
 						.then(()=> setTimeout(tryCallback, settings.retryDelay))

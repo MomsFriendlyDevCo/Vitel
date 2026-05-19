@@ -50,13 +50,13 @@ export default {
 		relativeUnits: {
 			type: Array,
 			default: ()=> [
-				{name: ' second', value: 1000, max: 50, single: 'a second' },
-				{name: ' minute', value: 60000, max: 50, single: 'a minute' },
-				{name: ' hour', value: 3600000, max: 22, single: 'an hour' },
-				{name: ' day', value: 86400000, max: 6, single: 'a day' },
-				{name: ' week', value: 604800000, max: 3.5, single: 'a week' },
-				{name: ' month', value: 2592000000, max: 11, single: 'a month' },
-				{name: ' year', value: 31536000000, max: Infinity, single: 'a year' }
+				{name: ' second', value: 1000, max: 50, single: 'a second'},
+				{name: ' minute', value: 60_000, max: 50, single: 'a minute'},
+				{name: ' hour', value: 3_600_000, max: 22, single: 'an hour'},
+				{name: ' day', value: 86_400_000, max: 6, single: 'a day'},
+				{name: ' week', value: 604_800_000, max: 3.5, single: 'a week'},
+				{name: ' month', value: 2_592_000_000, max: 11, single: 'a month'},
+				{name: ' year', value: 31_536_000_000, max: Infinity, single: 'a year'}
 			],
 		},
 		relativeUnitNow: {
@@ -80,7 +80,8 @@ export default {
 		dateDisplay() {
 			let diff = Math.abs(Date.now() - this.valueParsed.getTime());
 			if (this.display == 'auto') {
-				if (diff <= this.relativeCutoff) { // Use relative display
+				if (diff <= this.relativeCutoff) { // eslint-disable-line unicorn/prefer-ternary
+					// Use relative display
 					return this.dateRelative;
 				} else { // Use Intl formatter
 					return this.dateFormatted;
@@ -99,7 +100,8 @@ export default {
 		* @returns {String} The parsed date value
 		*/
 		valueParsed() {
-			if (this.value instanceof Date) { // Already a Date
+			if (this.value instanceof Date) { // eslint-disable-line unicorn/prefer-ternary
+				// Already a Date
 				return this.value;
 			} else { // Number OR string - assume JS parsable date OR epoch
 				return new Date(this.value);
@@ -119,7 +121,7 @@ export default {
 			let future = diff < 0;
 			diff = Math.abs(diff);
 
-			if (!future && diff < 10000) return this.relativeUnitNow;
+			if (!future && diff < 10_000) return this.relativeUnitNow;
 
 			let suffix = future ? ' ' + this.relativeUnitFuture : ' ' + this.relativeUnitPast;
 			for (let i = 0; i < this.relativeUnits.length; i++) {

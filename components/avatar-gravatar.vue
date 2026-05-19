@@ -9,7 +9,7 @@ export default {
 		* @type {String}
 		*/
 		gravatarUrl: null,
-	}},
+	} },
 	props: {
 		/**
 		* The email address of the user to look up
@@ -43,10 +43,11 @@ export default {
 		rating: {type: String, default: 'pg', validate: v => v.includes(['g', 'pg', 'r', 'x'])},
 	},
 	methods: {
+
 		/**
 		* Async, browser native SHA256 hashing of a given input string
 		* @param {String} input The simple input string to hash
-		* @return {String} The SHA256 hash of the input string
+		* @returns {String} The SHA256 hash of the input string
 		*/
 		async sha256(input) {
 			// Hash the message

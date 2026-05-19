@@ -101,7 +101,7 @@ export default {
 		endpointSortAsc: undefined, // ^^^
 		endpointPage: 1,
 		endpointLimit: 30,
-	}},
+	} },
 	props: {
 		url: {type: [String, Object], required: true},
 		baseUrl: {type: String, default() {
@@ -129,7 +129,7 @@ export default {
 			number: {cellClass: 'col-number text-right'},
 			thumbnail: {cellClass: 'col-thumbnail text-center'},
 			verbs: {cellClass: 'col-verbs text-right'},
-		}}}, /* }}} */
+		} }}, /* }}} */
 
 		selectable: {type: Boolean, default: false},
 
@@ -166,7 +166,7 @@ export default {
 	},
 	methods: {
 		// Utility functions  - logDebug() - Handle debug output {{{
-		logDebug(...args) { // eslint-disable-line no-unused-vars
+		logDebug(...args) {
 			if (!this.debug) {
 				// Pass
 			} else if (this.debug === true) {

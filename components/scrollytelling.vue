@@ -13,7 +13,7 @@ import {Position} from './scrollytelling.utils.js';
 export default {
 	provide() { return {
 		st: this,
-	}},
+	} },
 	data() { return {
 		/**
 		* The current stage position
@@ -65,7 +65,7 @@ export default {
 		* @type {Handle}
 		*/
 		playTimer: null,
-	}},
+	} },
 	props: {
 		startAt: {type: String},
 		debug: {type: Boolean, default: false},
@@ -74,6 +74,8 @@ export default {
 	methods: {
 		/**
 		* Called by child items to register their presence within this stage
+		*
+		* @param {VueComponent} component Component to register against this parent, used by child components
 		*/
 		register(component) {
 			this.children.push(component);

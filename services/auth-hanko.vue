@@ -101,7 +101,7 @@ export default {
 		* @type {Object|null}
 		*/
 		user: null,
-	}},
+	} },
 	props: {
 		/**
 		* Main VueApp instance to decorate
@@ -135,7 +135,7 @@ export default {
 		* Reloads local state from this.hanko
 		* This is an internal function to be called whenever Hanko messages that its state has changed
 		* @fires $hanko:change When the current user changes in any way
-		* @returns {Promise} A promise which resolves when the operation has completed
+		* @returns {Promise?} A promise which resolves when the operation has completed
 		*/
 		refresh() {
 			if (this.bypassEmail) { // Bypass hanko on dev instances

@@ -5,8 +5,8 @@
 * @emits click Emitted as `(tocSection:VueComponent)` when the section is clicked / navigated to
 */
 export default {
-	emits: ['click'],
 	inject: ['toc'], // Require a parent TOC(<table-of-contents>) parent
+	emits: ['click'],
 	props: {
 
 		/**

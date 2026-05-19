@@ -7,7 +7,7 @@ export default {
 			isLoggedIn: this.$hanko.isLoggedIn,
 			hasPasskeys: this.$hanko.hasPasskeys,
 			user: this.$hanko.user,
-		}},
+		} },
 	},
 }
 </script>

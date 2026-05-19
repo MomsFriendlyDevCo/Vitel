@@ -16,8 +16,8 @@ import timestring from 'timestring';
 * @param {String} [lazyParentsDisable='.modal'] jQuery compatible string which, if matched disables lazy loading (defaults to inside modals by default)
 * @param {String} [classValid] Apply this class to the element if the returned value is truthy
 * @param {String} [classInvalid] Apply this class to the element if the return value is falsy
-* @param {String|function} [textValid] Either overriding text to display if the element is valid, or a function to call with the server response which returns the mangled output
-* @param {String|function} [textInvalid] As with `textValid` this is either overriding text or a function to mangle a server response
+* @param {String|Function} [textValid] Either overriding text to display if the element is valid, or a function to call with the server response which returns the mangled output
+* @param {String|Function} [textInvalid] As with `textValid` this is either overriding text or a function to mangle a server response
 * @param {String} [textLoading=''] Optional text to display when loading data
 * @param {String} [iconValid] Optional icon to display next to the context when loaded
 * @param {String} [iconInvalid] Optional icon to display next to the `textInvalid` text when an error occurs
@@ -53,7 +53,7 @@ export default {
 		isLazy: false,
 		loading: true,
 		useLabel: true, // Whether to display the $props.label content if its present, set to false on incomming events or overrides
-	}},
+	} },
 	props: {
 		url: {type: [Object, String], required: true},
 		field: {type: String, default: "title"},
@@ -63,8 +63,8 @@ export default {
 			return [
 				'digest',
 				typeof this.url == 'string' ? this.url
-				: typeof this.url == 'object' ? this.url.url
-				: this.cache && (()=> { throw new Error('Cannot determine cache key - must specify an alternate <digest :cache-key="Function"/> binding') })(),
+					: typeof this.url == 'object' ? this.url.url
+					: this.cache && (()=> { throw new Error('Cannot determine cache key - must specify an alternate <digest :cache-key="Function"/> binding') })(),
 			].join('-');
 		}},
 		label: {type: String},
@@ -163,7 +163,8 @@ export default {
 						if (this.classValid) this.displayClass = this.classValid;
 					})
 					.catch(err => {
-						this.displayContent = typeof this.textInvalid == 'string' ? this.textInvalid
+						this.displayContent =
+							typeof this.textInvalid == 'string' ? this.textInvalid
 							: typeof this.textInvalid == 'function' ? this.textInvalid(err)
 							: err.statusText ? err.statusText
 							: err;

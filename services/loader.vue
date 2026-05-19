@@ -34,7 +34,7 @@ export default {
 		* @type {DOMElement}
 		*/
 		loadingEl: null,
-	}},
+	} },
 	props: {
 		/**
 		* Main VueApp instance to decorate

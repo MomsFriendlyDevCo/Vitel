@@ -15,7 +15,7 @@ export default {
 		* @type {Number}
 		*/
 		stopPosition: null,
-	}},
+	} },
 	props: {
 		syncMethod: {
 			type: String,

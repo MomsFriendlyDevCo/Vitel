@@ -1,4 +1,5 @@
 <script>
+/* eslint-disable unicorn/prefer-add-event-listener -- IndexDB uses old school listeners not addEventListener hooks */
 import {cloneDeep} from 'lodash-es';
 import {isProxy} from 'vue';
 
@@ -51,7 +52,7 @@ export default {
 		deserialize(v) {
 			return v;
 		},
-	}},
+	} },
 	props: {
 		/**
 		* The default database name to assume if none is given in the path

@@ -26,7 +26,7 @@ export default {
 			maxText: this.maxText,
 			conjoin: this.conjoin,
 			formatter: this.formater,
-		}},
+		} },
 	},
 	methods: {
 		list,

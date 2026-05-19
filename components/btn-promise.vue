@@ -9,7 +9,7 @@ export default {
 		* @type {Boolean}
 		*/
 		isActive: false,
-	}},
+	} },
 	props: {
 		/**
 		* Async callback function to run and wait for

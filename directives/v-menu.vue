@@ -6,22 +6,24 @@ import {nextTick} from 'vue';
 * Context-menu or popup-menu directive to easily add menus to things
 * Displays a Bootstrap-like context menu on given events
 *
-* @param {Object|String} [options] Options for the v-menu directive, if a string the value of `options.selector` is assumed, if an array `options.items` is assumed
-* @param {String} [options.selector] Query selector to find and reuse an existing page element
-* @param {Array<MenuItem>} [options.items] Collection of menu items to dynamically create
-* @param {Boolean} [options.prevent=true] Stop event default handler when interacting
-* @param {Boolean} [options.stop=true] Stop event bubbling when interacting
-* @param {String} [options.placement='top-start'] Where to position the menu, relative to the current element
-* @param {Object} [options.popperConfig] Overriding options to pass to Popper when positioning the menu
-* @param {String} [options.classHide='d-none'] Initial class(es) to apply to the menu (if selector is specified), this directive will wait one tick before trying to apply this
-* @param {String} [options.classShow='d-block'] Class(es) to apply to the menu when it is shown (if a selector is specified)
-* @param {String} [options.event='contextmenu'] Event to trap
-* @param {Object} [options.context] Context to pass to callback functions like `options.onClick` or `options.items.show`, defaults to the directive instance (usually the parent VueComponent of the element)
+* @param {HTMLElement} el The HTML element to bind to
 *
-* @param {Function} [options.filter] Async function called before any action to decide whether to act, if this function resolves exactly to a boolean `false` no action is taken. Called as `(context:Object)`
-* @param {Function} [options.before] Async function to call before opening the context menu. Called as `(context:Object)`
-* @param {Function} [options.beforeClose] Async function to call when the context menu has closed. Called as `(context:Object)`
-* @param {Function} [options.close] Async function to call when the context menu has closed. Called as `(context:Object)`
+* @param {Object|String} [binding] Options for the v-menu directive, if a string the value of `binding.selector` is assumed, if an array `binding.items` is assumed
+* @param {String} [binding.selector] Query selector to find and reuse an existing page element
+* @param {Array<MenuItem>} [binding.items] Collection of menu items to dynamically create
+* @param {Boolean} [binding.prevent=true] Stop event default handler when interacting
+* @param {Boolean} [binding.stop=true] Stop event bubbling when interacting
+* @param {String} [binding.placement='top-start'] Where to position the menu, relative to the current element
+* @param {Object} [binding.popperConfig] Overriding options to pass to Popper when positioning the menu
+* @param {String} [binding.classHide='d-none'] Initial class(es) to apply to the menu (if selector is specified), this directive will wait one tick before trying to apply this
+* @param {String} [binding.classShow='d-block'] Class(es) to apply to the menu when it is shown (if a selector is specified)
+* @param {String} [binding.event='contextmenu'] Event to trap
+* @param {Object} [binding.context] Context to pass to callback functions like `binding.onClick` or `binding.items.show`, defaults to the directive instance (usually the parent VueComponent of the element)
+*
+* @param {Function} [binding.filter] Async function called before any action to decide whether to act, if this function resolves exactly to a boolean `false` no action is taken. Called as `(context:Object)`
+* @param {Function} [binding.before] Async function to call before opening the context menu. Called as `(context:Object)`
+* @param {Function} [binding.beforeClose] Async function to call when the context menu has closed. Called as `(context:Object)`
+* @param {Function} [binding.close] Async function to call when the context menu has closed. Called as `(context:Object)`
 *
 * @param [modifiers.click] If specified imples `{event: 'click'}` i.e. trap clicks instead of right clicks
 */
@@ -62,7 +64,7 @@ export default {
 			});
 		}
 
-		el.addEventListener(settings.event, async (e) => {
+		el.addEventListener(settings.event, async e => {
 			if (await settings.filter.call(settings.context, settings.context) === false) return;
 
 			if (settings.prevent) e.preventDefault();

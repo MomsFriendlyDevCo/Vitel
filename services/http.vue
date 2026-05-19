@@ -54,7 +54,7 @@ export default {
 		* @type {Object<Cache>}
 		*/
 		caches: {},
-	}},
+	} },
 	props: {
 
 		/**
@@ -167,7 +167,7 @@ export default {
 					cacheName: 'FetchCache',
 					expires: '1d',
 					checkExpiry: true,
-					debug(...msg) {
+					debug(...msg) { // eslint-disable-line no-unused-vars
 						// console.info('[$http.lazyGet]', ...msg);
 					},
 					async hasher(settings) {

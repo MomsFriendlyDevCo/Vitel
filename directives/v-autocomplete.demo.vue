@@ -7,7 +7,7 @@ export default {
 	},
 	data() { return {
 		value: '',
-	}},
+	} },
 	props: {
 		settings: {type: Object, required: true}, // Settings passed to v-autocomplete
 	},
@@ -30,6 +30,9 @@ export default {
 			/>
 			<label for="exampleAutocomplete" class="form-label">Example input</label>
 		</div>
-		<p v-if="value">Raw value: <code class="border rounded p-1">{{value}}</code></p>
+		<p v-if="value">
+			Raw value:
+			<code class="border rounded p-1">{{value}}</code>
+		</p>
 	</form>
 </template>

@@ -13,5 +13,4 @@ export default {
 	},
 }
 
-export const Example = {
-}
+export const Example = {}

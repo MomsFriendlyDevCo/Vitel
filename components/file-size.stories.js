@@ -25,6 +25,6 @@ export default {
 
 export const SimpleNumbers = {
 	args: {
-		value: 1234567890,
+		value: 1_234_567_890,
 	},
 }

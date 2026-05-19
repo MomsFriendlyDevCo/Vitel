@@ -9,7 +9,7 @@ export default {
 		* @type {Object}
 		*/
 		services: {},
-	}},
+	} },
 	props: {
 		/**
 		* The main VueApp object

@@ -3,7 +3,7 @@ export default {
 	data() { return {
 		isError: false,
 		response: null,
-	}},
+	} },
 	methods: {
 		mockRequest(method, req) {
 			return (method
@@ -65,7 +65,8 @@ export default {
 		<div class="card mb-2">
 			<div class="card-header">$http.throttle(request)</div>
 			<div class="card-body">
-				<p>Axios requests + combine duplicate request + local caching. This method follows these rules:
+				<p>
+					Axios requests + combine duplicate request + local caching. This method follows these rules:
 					<ol>
 						<li>Hash the current request based on `hashMethod` (defaults to `url`)</li>
 						<li>Using the hash, if the request is currently being made - return that pending promise</li>

@@ -4,7 +4,7 @@ import Events from './events.vue';
 export default {
 	data() { return {
 		Events, // Stubs to dynamically load for the demo
-	}},
+	} },
 	computed: {
 		servicesState() {
 			return {

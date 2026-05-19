@@ -59,8 +59,7 @@ export default {
 			return new Intl.NumberFormat(this.locale, {
 				minimumFractionDigits: this.decimalsMin,
 				maximumFractionDigits: this.decimalsMax,
-			}).format(value)
-				+ ' ' + unit.suffix;
+			}).format(value) + ' ' + unit.suffix;
 		},
 	},
 }

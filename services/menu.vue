@@ -29,7 +29,7 @@ export default {
 		* @type {DOMElement}
 		*/
 		backdropEl: null,
-	}},
+	} },
 	methods: {
 		/**
 		* @typedef DropdownItem

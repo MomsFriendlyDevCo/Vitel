@@ -25,7 +25,8 @@ export default function(value, options) {
 			type: settings.conjoin == 'and' ? 'conjunction' : 'disjunction',
 		});
 
-	if (settings.max > 0 && value.length > settings.max) { // Over the max number of items?
+	if (settings.max > 0 && value.length > settings.max) { // eslint-disable-line unicorn/prefer-ternary
+		// Over the max number of items?
 		return settings.maxText.replace(':X', value.length);
 	} else { // Regular list formatting
 		return settings.formatter.format(

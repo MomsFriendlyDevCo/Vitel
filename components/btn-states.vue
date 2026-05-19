@@ -17,7 +17,7 @@ export default {
 		* @type {Number}
 		*/
 		state: 0,
-	}},
+	} },
 	props: {
 
 		/**

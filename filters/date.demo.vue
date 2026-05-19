@@ -16,13 +16,13 @@ export default {
 		timezone: {type: String, default: ()=> Intl.DateTimeFormat().resolvedOptions().timeZone},
 		relativeCutoff: {type: Number, default: ()=> 1000 * 60 * 60 * 24}, //~ 24 hours
 		relativeUnits: {type: Array, default: ()=> [
-			{name: ' second', value: 1000, max: 50, single: 'a second' },
-			{name: ' minute', value: 60000, max: 50, single: 'a minute' },
-			{name: ' hour', value: 3600000, max: 22, single: 'an hour' },
-			{name: ' day', value: 86400000, max: 6, single: 'a day' },
-			{name: ' week', value: 604800000, max: 3.5, single: 'a week' },
-			{name: ' month', value: 2592000000, max: 11, single: 'a month' },
-			{name: ' year', value: 31536000000, max: Infinity, single: 'a year' }
+			{name: ' second', value: 1000, max: 50, single: 'a second'},
+			{name: ' minute', value: 60_000, max: 50, single: 'a minute'},
+			{name: ' hour', value: 3_600_000, max: 22, single: 'an hour'},
+			{name: ' day', value: 86_400_000, max: 6, single: 'a day'},
+			{name: ' week', value: 604_800_000, max: 3.5, single: 'a week'},
+			{name: ' month', value: 2_592_000_000, max: 11, single: 'a month'},
+			{name: ' year', value: 31_536_000_000, max: Infinity, single: 'a year'}
 		]},
 		relativeUnitNow: {type: String, default: 'just now'},
 		relativeUnitPast: {type: String, default: 'ago'},
@@ -40,7 +40,7 @@ export default {
 			relativeUnitNow: this.relativeUnitNow,
 			relativeUnitPast: this.relativeUnitPast,
 			relativeUnitFuture: this.relativeUnitFuture,
-		}},
+		} },
 	},
 	methods: {
 		dateFilter,

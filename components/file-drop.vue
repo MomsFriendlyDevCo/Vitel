@@ -26,7 +26,7 @@ export default {
 
 		// Static function bindings so we can use {add,remove}EventListener()
 		eventGlobalDragLeave: this.showGlobalDropable.bind(this, 'hide'),
-	}},
+	} },
 	props: {
 		global: {type: Boolean, default: false},
 		globalSelector: {type: String, default: 'body'},

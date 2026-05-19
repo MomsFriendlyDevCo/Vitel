@@ -27,8 +27,8 @@ export default {
 			onShow: ()=> {},
 			onHide: ()=> {},
 			debug: false,
-			...(
-				typeof binding.value == 'string' ? {classShow: binding.value} // Passed a post-processed string
+			...(typeof binding.value == 'string'
+				? {classShow: binding.value} // Passed a post-processed string
 				: binding.value
 			),
 		};

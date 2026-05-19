@@ -14,7 +14,7 @@ export default {
 	inject: ['st'],
 	provide() { return {
 		stItem: this,
-	}},
+	} },
 	data() { return {
 		/**
 		* Position within this scrollytelling-item
@@ -35,7 +35,7 @@ export default {
 		* @type {Number} Time in ticks (usually milliseconds)
 		*/
 		lifetime: 0,
-	}},
+	} },
 	props: {
 		position: {
 			type: String,

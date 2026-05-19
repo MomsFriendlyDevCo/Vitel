@@ -1,4 +1,5 @@
 <script>
+/* eslint-disable */
 // Wrapped version of https://github.com/jackmoore/autosize/blob/master/src/autosize.js {{{
 const assignedElements = new Map();
 

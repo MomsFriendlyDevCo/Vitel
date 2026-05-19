@@ -13,7 +13,7 @@ export default {
 	],
 	provide() { return {
 		toc: this,
-	}},
+	} },
 	data() { return {
 
 		/**
@@ -27,7 +27,7 @@ export default {
 		*/
 		tocSections: [],
 
-	}},
+	} },
 	props: {
 
 		/**

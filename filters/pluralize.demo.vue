@@ -20,7 +20,7 @@ export default {
 			prefix: this.prefix,
 			suffix: this.suffix,
 			valueIfZero: this.valueIfZero,
-		}},
+		} },
 	},
 	methods: {
 		pluralize,

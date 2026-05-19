@@ -3,7 +3,7 @@ export default {
 	data() { return {
 		toastId: null,
 		Error, // So we can create error objects
-	}},
+	} },
 	methods: {
 		testNotifyPromise(isOk = true) {
 			let myPromise = new Promise((resolve, reject) => {

@@ -63,7 +63,7 @@ export default {
 				dialog.modelBS.hide();
 			}
 
-			if (success) {
+			if (success) { // eslint-disable-line unicorn/prefer-ternary
 				return Promise.resolve(dialog.promiseResolve(payload));
 			} else {
 				return Promise.resolve(dialog.promiseReject(payload));

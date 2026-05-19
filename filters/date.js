@@ -26,13 +26,13 @@ export default function(value, options) {
 		timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
 		relativeCutoff: 1000 * 60 * 60 * 24, //~ 24 hours
 		relativeUnits: [
-			{name: ' second', value: 1000, max: 50, single: 'a second' },
-			{name: ' minute', value: 60000, max: 50, single: 'a minute' },
-			{name: ' hour', value: 3600000, max: 22, single: 'an hour' },
-			{name: ' day', value: 86400000, max: 6, single: 'a day' },
-			{name: ' week', value: 604800000, max: 3.5, single: 'a week' },
-			{name: ' month', value: 2592000000, max: 11, single: 'a month' },
-			{name: ' year', value: 31536000000, max: Infinity, single: 'a year' }
+			{name: ' second', value: 1000, max: 50, single: 'a second'},
+			{name: ' minute', value: 60_000, max: 50, single: 'a minute'},
+			{name: ' hour', value: 3_600_000, max: 22, single: 'an hour'},
+			{name: ' day', value: 86_400_000, max: 6, single: 'a day'},
+			{name: ' week', value: 604_800_000, max: 3.5, single: 'a week'},
+			{name: ' month', value: 2_592_000_000, max: 11, single: 'a month'},
+			{name: ' year', value: 31_536_000_000, max: Infinity, single: 'a year'}
 		],
 		relativeUnitNow: 'just now',
 		relativeUnitPast: 'ago',
@@ -44,7 +44,8 @@ export default function(value, options) {
 	let diff = Math.abs(Date.now() - valueParsed.getTime());
 
 	if (settings.display == 'auto') {
-		if (diff <= settings.relativeCutoff) { // Use relative display
+		if (diff <= settings.relativeCutoff) { // eslint-disable-line unicorn/prefer-ternary
+			// Use relative display
 			return dateRelative(valueParsed, settings);
 		} else { // Use Intl formatter
 			return dateFormatted(valueParsed, settings);
@@ -72,7 +73,7 @@ export function dateRelative(date, settings) {
 	let future = diff < 0;
 	diff = Math.abs(diff);
 
-	if (!future && diff < 10000) return settings.relativeUnitNow;
+	if (!future && diff < 10_000) return settings.relativeUnitNow;
 
 	let suffix = future ? ' ' + settings.relativeUnitFuture : ' ' + settings.relativeUnitPast;
 	for (let i = 0; i < settings.relativeUnits.length; i++) {

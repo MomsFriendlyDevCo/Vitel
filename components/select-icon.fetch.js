@@ -16,6 +16,6 @@ console.log(
 					: 'far'
 				)
 			)
-			.sort()
+			.toSorted()
 	)
 );

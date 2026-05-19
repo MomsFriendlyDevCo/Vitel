@@ -7,7 +7,7 @@ export default {
 
 export const BasicNumberOutput = {
 	args: {
-		value: 123456789,
+		value: 123_456_789,
 	},
 }
 

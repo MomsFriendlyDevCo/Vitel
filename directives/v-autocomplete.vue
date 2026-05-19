@@ -1,25 +1,27 @@
 <script>
 import Dropdown from 'bootstrap/js/dist/dropdown';
-import {debounce, sortBy} from 'lodash-es';
+import {sortBy} from 'lodash-es';
 import RegExpEscape from '#utils/regexpEscape';
 
 /**
 * Add an autocomplete element to a regular `<input/>` element with minimal DOM / Vue interruptions
 *
-* @param {Object} options Configuration options
-* @param {Array|Function} [options.options] Options to populate (if a simple array), otherwise this can be an async function which can return an array OR an AxiosRequest which will return the options to display
-* @param {Function} [options.change] Event fired when the user makes a selection. Called as `(option)`
+* @param {HTMLElement} el The DOM element to bind to
 *
-* @param {String} [options.query] The initial query to use, if omitted uses the value of the element
-* @param {Boolean} [options.filter=false] Apply a client-side filter to the input options. This is only useful if the options function doesnt filter the options itself
-* @param {Boolean|String|Array<String>} [options.filter=false] Apply a client-side filter to optionsif a literal `true` value. If a non-boolean this indicates the options field(s) to sort by
-* @param {Function} [options.label] Function to extract the display label from individual options. Defaults to using the literal string value of the option. Called as `(option)`
-* @param {Function} [options.labelHighlighter] Curryable function used to return the label highlighter. Called as `(query)`. Expected to return a function which highlights subsequent option labels.
-* @param {String} [options.labelHighlightTag='strong'] HTML tag to use when highlighting matches if using the default `options.labelHightlighter`
-* @param {Function} [options.labelEmpty] Function to rreturn a prompt when no options match. Called as `(query)`
-* @param {Object} [options.dropdown] Dropdown options passed to `Boostrap.dropdown()` to create the dropdown aspect of the autocomplete
-* @param {Object<Function>} [options.events] Event mapping of event handlers for the source element. Each is mapped as a passive event listener
-* @param {Object<Function>} [options.keyHandlers] Key handler mapping for anything triggering a key event.
+* @param {Object} binding Configuration options
+* @param {Array|Function} [binding.options] Options to populate (if a simple array), otherwise this can be an async function which can return an array OR an AxiosRequest which will return the options to display
+* @param {Function} [binding.change] Event fired when the user makes a selection. Called as `(option)`
+*
+* @param {String} [binding.query] The initial query to use, if omitted uses the value of the element
+* @param {Boolean} [binding.filter=false] Apply a client-side filter to the input binding. This is only useful if the options function doesnt filter the options itself
+* @param {Boolean|String|Array<String>} [binding.filter=false] Apply a client-side filter to optionsif a literal `true` value. If a non-boolean this indicates the options field(s) to sort by
+* @param {Function} [binding.label] Function to extract the display label from individual binding. Defaults to using the literal string value of the option. Called as `(option)`
+* @param {Function} [binding.labelHighlighter] Curryable function used to return the label highlighter. Called as `(query)`. Expected to return a function which highlights subsequent option labels.
+* @param {String} [binding.labelHighlightTag='strong'] HTML tag to use when highlighting matches if using the default `binding.labelHightlighter`
+* @param {Function} [binding.labelEmpty] Function to rreturn a prompt when no options match. Called as `(query)`
+* @param {Object} [binding.dropdown] Dropdown options passed to `Boostrap.dropdown()` to create the dropdown aspect of the autocomplete
+* @param {Object<Function>} [binding.events] Event mapping of event handlers for the source element. Each is mapped as a passive event listener
+* @param {Object<Function>} [binding.keyHandlers] Key handler mapping for anything triggering a key event.
 */
 let updateAutocomplete = function updateAutocomplete(el, binding) {
 	if (!el.parentElement) return console.log('Cannot render yet - no parent element');

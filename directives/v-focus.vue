@@ -4,17 +4,19 @@ import {nextTick} from 'vue';
 /**
 * Simple directive to try and obtain focus when an element is mounted
 *
-* @param {Object} [options] Additional options to mutate behaviour
-* @param {Boolean} [options.mount=true] Try to set the focus on mount, can also be disabled via the `.noMount` modifier
-* @param {Boolean} [options.intersect=false] Also monitor via IntersectionObserver for when the component becomes intersect later, also settable via the `.intersect` modifier
-* @param {Function} [options.intersectionRoot] Function to determine the intersection root element. Defaults to finding the closest modal-body, dialog or document body. Called as `(el:DOMEelemnt)`
-* @param {Boolean} [options.modals=true] Listen for wrapping modal elements switching to show state and react to that also
-* @param {Function} [options.modalParent] Function to find the wrapping modal parent if `options.modals` is truthy
-* @param {Boolean} [options.aggressive=false] Shorthand property to `mount`, `intersect`, `visibility` options. Also settable via the `.aggressive` modifier
-* @param {Function} [options.handler] Actual function to run when focusing. Called as `(el:DOMElement, cause: 'mount'|'intersection'|'visibility')`
-* @param {Boolean} [options.visibility=false] Periodically checks the visibility of the element and tries to reclaim focus when transitioning from invisible to visible. Also settable via the `.visibility` modifier
-* @param {Object} [options.visibilityOptions] Options to pass to `El.checkVisibility()` when `visibility` is enabled. Defaults to all options enabled.
-* @param {Number} [options.visibilityInterval=250] Time in milliseconds to monitor the visibility of an element
+* @param {HTMLElement} el The HTML element to bind to
+*
+* @param {Object} [binding] Additional options to mutate behaviour
+* @param {Boolean} [binding.mount=true] Try to set the focus on mount, can also be disabled via the `.noMount` modifier
+* @param {Boolean} [binding.intersect=false] Also monitor via IntersectionObserver for when the component becomes intersect later, also settable via the `.intersect` modifier
+* @param {Function} [binding.intersectionRoot] Function to determine the intersection root element. Defaults to finding the closest modal-body, dialog or document body. Called as `(el:DOMEelemnt)`
+* @param {Boolean} [binding.modals=true] Listen for wrapping modal elements switching to show state and react to that also
+* @param {Function} [binding.modalParent] Function to find the wrapping modal parent if `binding.modals` is truthy
+* @param {Boolean} [binding.aggressive=false] Shorthand property to `mount`, `intersect`, `visibility` binding. Also settable via the `.aggressive` modifier
+* @param {Function} [binding.handler] Actual function to run when focusing. Called as `(el:DOMElement, cause: 'mount'|'intersection'|'visibility')`
+* @param {Boolean} [binding.visibility=false] Periodically checks the visibility of the element and tries to reclaim focus when transitioning from invisible to visible. Also settable via the `.visibility` modifier
+* @param {Object} [binding.visibilityOptions] Options to pass to `El.checkVisibility()` when `visibility` is enabled. Defaults to all options enabled.
+* @param {Number} [binding.visibilityInterval=250] Time in milliseconds to monitor the visibility of an element
 *
 * @example Simple focus on mount
 * <input v-focus v-model="myValue"/>
@@ -38,7 +40,7 @@ export default {
 				visibilityProperty: true,
 			},
 			visibilityInterval: 250,
-			handler: (el, cause) => { // eslint-disable-line
+			handler: (el, cause) => { // eslint-disable-line no-unused-vars
 				// console.log('SET FOCUS', el, 'BECAUSE', cause);
 				el.focus();
 			},
@@ -64,7 +66,7 @@ export default {
 
 		if (settings.visibility) {
 			let lastVisible = false;
-			let visibilityChecker = setInterval(()=> {
+			setInterval(()=> {
 				let isVisible = el.checkVisibility(settings.visibilityOptions);
 				if (!lastVisible && isVisible) { // Moving invisible -> visible
 					settings.handler(el, 'visibility');

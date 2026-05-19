@@ -18,7 +18,7 @@ export default {
 		* @type {VueComponent}
 		*/
 		handler: null,
-	}},
+	} },
 	computed: {
 		/**
 		* The currently active prompt settings (if any)

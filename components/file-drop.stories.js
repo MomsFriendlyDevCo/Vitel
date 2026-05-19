@@ -15,8 +15,7 @@ export default {
 }
 
 export const Example = {
-	args: {
-	},
+	args: {},
 }
 
 export const GlobalHandling = {

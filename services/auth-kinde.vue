@@ -45,7 +45,7 @@ export default {
 		* @type {Object|null}
 		*/
 		user: null,
-	}},
+	} },
 	props: {
 		/**
 		* Non-secret Kinde client ID to use
@@ -150,7 +150,7 @@ export default {
 						return null;
 					}
 				})
-				.then(async (rawUser) => { // Call optional onUpdate promise which is allowed to decorate the raw user before we use it
+				.then(async rawUser => { // Call optional onUpdate promise which is allowed to decorate the raw user before we use it
 					await this.onUpdate.call(this, rawUser);
 					return rawUser;
 				})

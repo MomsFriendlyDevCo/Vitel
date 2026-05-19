@@ -19,5 +19,4 @@ export default {
 	argTypes: {},
 }
 
-export const Example = {
-}
+export const Example = {}
