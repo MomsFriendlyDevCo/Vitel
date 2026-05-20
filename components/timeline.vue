@@ -114,7 +114,6 @@ export default {
 	methods: {
 		repositionSideline() {
 			if (!this.$el) return; // Mount not ready yet
-			console.log('Timeline reposition!');
 			let icons = [...(this.$el.querySelectorAll('.timeline-item-icon') ?? [])];
 
 			this.sidelinePosition = icons && icons.length > 1 && {
