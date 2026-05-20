@@ -1,5 +1,17 @@
 # Changelog
 
+# [1.39.0](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.38.7...v1.39.0) (2026-05-20)
+
+
+### Bug Fixes
+
+* Debugging artefact ([dbc8809](https://github.com/MomsFriendlyDevCo/Vitel/commit/dbc88096f4722f0624c41c20f4df9d346e96d437))
+
+
+### Features
+
+* <prevent-close> ([7e821f6](https://github.com/MomsFriendlyDevCo/Vitel/commit/7e821f687fa4cba3c4d363260af9701924f62853))
+
 ## [1.38.7](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.38.6...v1.38.7) (2026-05-05)
 
 
