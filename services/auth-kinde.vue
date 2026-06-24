@@ -284,7 +284,7 @@ export default {
 		*/
 		axiosRequestMiddleware(config) {
 			return Promise.resolve()
-				.then(()=>
+				.then(()=> /* eslint-disable @stylistic/indent */
 					this.appendAuthenticationHeader === true ? true
 					: typeof this.appendAuthenticationHeader == 'function' ? this.appendAuthenticationHeader(config)
 					: false
@@ -301,7 +301,7 @@ export default {
 					if (!addHeader) { // Don't want token injecting anyway
 						return;
 					} else if (addHeader && !token) { // Want header but no token ready yet
-						console.warn('$authKinde - Want token injection for request', config, 'but no token to inject!');
+						console.warn('$authKinde - Want token injection for request', config, 'but no auth token to inject!');
 					} else { // Want header + token ready
 						config.headers['Authorization'] = `Bearer ${token}`;
 					}
