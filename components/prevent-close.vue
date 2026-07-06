@@ -112,20 +112,25 @@ export default {
 		* @param {Boolean} [enabled=true] Whether the watcher should be installed
 		*/
 		toggleRouterGuard(enabled = true) {
-			if (enabled && this.isRouterGuardEnabled) { // Disabling
+			if (!enabled && this.isRouterGuardEnabled) { // Disabling
+				this.uninstallRouterGuard();
+				this.isRouterGuardEnabled = false;
+			} else if (enabled && !this.isRouterGuardEnabled) { // Enabling
 				this.uninstallRouterGuard = this.$router.beforeEach((to, from) => {
-					let preventNav = !this.message || window.confirm(this.message); // Just say no if message is disabled OR ask the user first
+					let preventNav = !this.message || !window.confirm(this.message); // Just say no if message is disabled OR ask the user first
 
 					if (preventNav) {
 						console.log('<prevent-close/> - preventing Vue-Router navigation');
 						return false;
 					}
 				});
-
-			} else if (enabled && !this.isRouterGuardEnabled) { // Enabling
-				this.uninstallRouterGuard();
+				this.isRouterGuardEnabled = true;
 			} // Implied else - enabled changed to existing value - no action needed
 		},
+	},
+	beforeUnmount() { // Ensure guards don't outlive this component
+		this.toggleBrowserGuard(false);
+		this.toggleRouterGuard(false);
 	},
 	watch: {
 		enabled: {
