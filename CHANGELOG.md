@@ -1,5 +1,17 @@
 # Changelog
 
+# [1.40.0](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.39.0...v1.40.0) (2026-07-06)
+
+
+### Bug Fixes
+
+* **<prevent-close>:** Various bug fixes ([981760f](https://github.com/MomsFriendlyDevCo/Vitel/commit/981760fc24ad7e5441ada28f475f9c3e2eed7018))
+
+
+### Features
+
+* **<prevent-close>:** Extend functionality to also trap $router navigation ([7e811a4](https://github.com/MomsFriendlyDevCo/Vitel/commit/7e811a42f82c2160631103fc0b43e78e33ae5544))
+
 # [1.39.0](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.38.7...v1.39.0) (2026-05-20)
 
 
