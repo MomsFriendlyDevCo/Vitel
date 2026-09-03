@@ -290,7 +290,7 @@ export default {
 					: false
 				)
 				.then(addHeader => addHeader
-					? this.kinde.getToken()
+					? this.kinde.getAccessToken()
 						.then(token => ({
 							addHeader,
 							token,
