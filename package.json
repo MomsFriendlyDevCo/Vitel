@@ -48,7 +48,7 @@
     "@faker-js/faker": "^8.2.0",
     "@fortawesome/fontawesome-svg-core": "^6.6.0",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
-    "@kinde-oss/kinde-auth-pkce-js": "^4.3.0",
+    "@kinde-oss/kinde-auth-pkce-js": "^4.5.1",
     "@momsfriendlydevco/chainable": "^1.1.0",
     "@momsfriendlydevco/formatters": "^1.2.3",
     "@momsfriendlydevco/sort-keys": "^1.1.2",
