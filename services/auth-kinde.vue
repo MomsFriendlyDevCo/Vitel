@@ -62,6 +62,20 @@ export default {
 
 
 		/**
+		* Framework name to report to Kinde
+		* @type {String}
+		*/
+		framework: {type: String, default: 'vite'},
+
+
+		/**
+		* Framework version to report to Kinde
+		* @type {String}
+		*/
+		frameworkVersion: {type: String, default: '0.0.0'},
+
+
+		/**
 		* If set, bypass Kinde auth and assume this as the logged in email addres
 		* @type {String}
 		*/
@@ -327,6 +341,8 @@ export default {
 							domain: this.domain,
 							redirect_uri: window.location.origin,
 							on_redirect_callback: this.refresh,
+							framework: this.framework,
+							frameworkVersion: this.frameworkVersion,
 							...(this.forceLocalStorage && {
 								is_dangerously_use_local_storage: true,
 							}),
