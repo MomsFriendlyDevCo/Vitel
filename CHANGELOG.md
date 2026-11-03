@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.40.3](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.40.2...v1.40.3) (2026-11-03)
+
+
+### Bug Fixes
+
+* Handle invalid file entries given to us by Supabase ([4284012](https://github.com/MomsFriendlyDevCo/Vitel/commit/42840123fa0f62c6f17487ca16b51ab1224f8bc3))
+
 # [1.40.0](https://github.com/MomsFriendlyDevCo/Vitel/compare/v1.39.0...v1.40.0) (2026-07-06)
 
 
