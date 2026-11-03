@@ -454,66 +454,76 @@ export default {
 					}
 					if (!data) return Promise.resolve([]); // No data or empty folder
 
-					return Promise.all((data).map(rawFile => {
-						const isFolder = rawFile.id === null;
-						const itemName = rawFile.name;
-						const currentBasePath = path.replace(/\/$/, ''); // Remove trailing slash from current path if any
-						const itemFullPath = `${currentBasePath}/${itemName}`;
-
-						// Base structure for both files and folders
-						let itemStructure = {
-							id: rawFile.id, // Will be null for folders
-							name: itemName,
-							path: itemFullPath,
-							parsedName: this._parsePath('/' + itemName),
-							created: rawFile.created_at ? new Date(rawFile.created_at) : null,
-							modified: rawFile.updated_at ? new Date(rawFile.updated_at) : null,
-							accessed: rawFile.last_accessed_at ? new Date(rawFile.last_accessed_at) : null,
-							size: !isFolder ? rawFile.metadata?.size : null,
-							mime: !isFolder ? rawFile.metadata?.mimetype : null,
-							isFolder: isFolder,
-						};
-
-						if (isFolder) {
-							// It's a folder
-							itemStructure.meta = {}; // Folders don't have 'fileMeta' in the same way
-							itemStructure.files = []; // Initialize files array for the folder
-
-							// Apply fileType (might give a generic folder icon)
-							Object.assign(itemStructure, this.fileType(itemStructure));
-
-
-							if (settings._currentDepth < settings.maxDepth) {
-								// Recursively call fileList for the subdirectory
-								const subFolderOptions = {
-									...settings, // Pass along original options
-									_currentDepth: settings._currentDepth + 1, // Increment depth
-								};
-								return this.fileList(itemFullPath, subFolderOptions)
-									.then(subFiles => {
-										itemStructure.files = subFiles;
-										return itemStructure;
-									});
+					return Promise.all(data
+						.filter(rawFile => {
+							if (!rawFile.name.trim()) {
+								console.warn(`Supabase returned nullish filename for file#"${rawFile.id}" - ignoring`, {rawFile});
+								return false;
 							} else {
-								// Max depth reached, don't recurse further
-								console.warn('[fileList] Max depth reached while recursively searching folders, current depth:', settings._currentDepth);
-								return Promise.resolve(itemStructure);
+								return true;
 							}
+						})
+						.map(rawFile => {
+							const isFolder = rawFile.id === null;
+							const itemName = rawFile.name;
+							const currentBasePath = path.replace(/\/$/, ''); // Remove trailing slash from current path if any
+							const itemFullPath = `${currentBasePath}/${itemName}`;
 
-						} else {
-							// It's a file, fetch metadata if enabled
-							return Promise.resolve()
-								.then(() => settings.meta
-									? this.get(settings.metaPath(rawFile), {}, {id: false})
-									: Promise.resolve({})
-								)
-								.then(meta => {
-									itemStructure.meta = meta;
-									// Merge in output of this.fileType() for the file
-									return Object.assign(itemStructure, this.fileType(itemStructure));
-								});
-						}
-					}));
+							// Base structure for both files and folders
+							let itemStructure = {
+								id: rawFile.id, // Will be null for folders
+								name: itemName,
+								path: itemFullPath,
+								parsedName: this._parsePath('/' + itemName),
+								created: rawFile.created_at ? new Date(rawFile.created_at) : null,
+								modified: rawFile.updated_at ? new Date(rawFile.updated_at) : null,
+								accessed: rawFile.last_accessed_at ? new Date(rawFile.last_accessed_at) : null,
+								size: !isFolder ? rawFile.metadata?.size : null,
+								mime: !isFolder ? rawFile.metadata?.mimetype : null,
+								isFolder: isFolder,
+							};
+
+							if (isFolder) {
+								// It's a folder
+								itemStructure.meta = {}; // Folders don't have 'fileMeta' in the same way
+								itemStructure.files = []; // Initialize files array for the folder
+
+								// Apply fileType (might give a generic folder icon)
+								Object.assign(itemStructure, this.fileType(itemStructure));
+
+
+								if (settings._currentDepth < settings.maxDepth) {
+									// Recursively call fileList for the subdirectory
+									const subFolderOptions = {
+										...settings, // Pass along original options
+										_currentDepth: settings._currentDepth + 1, // Increment depth
+									};
+									return this.fileList(itemFullPath, subFolderOptions)
+										.then(subFiles => {
+											itemStructure.files = subFiles;
+											return itemStructure;
+										});
+								} else {
+									// Max depth reached, don't recurse further
+									console.warn('[fileList] Max depth reached while recursively searching folders, current depth:', settings._currentDepth);
+									return Promise.resolve(itemStructure);
+								}
+
+							} else {
+								// It's a file, fetch metadata if enabled
+								return Promise.resolve()
+									.then(() => settings.meta
+										? this.get(settings.metaPath(rawFile), {}, {id: false})
+										: Promise.resolve({})
+									)
+									.then(meta => {
+										itemStructure.meta = meta;
+										// Merge in output of this.fileType() for the file
+										return Object.assign(itemStructure, this.fileType(itemStructure));
+									});
+							}
+						})
+					);
 				});
 		},
 
